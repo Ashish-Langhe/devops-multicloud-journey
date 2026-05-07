@@ -2,7 +2,7 @@
 
 # 🚀 DevOps MultiCloud Journey
 
-### Learning DevOps hands-on — notes, diagrams & projects across AWS, Azure, GCP, Docker, K8s & CI/CD
+### Learning DevOps hands-on — notes, diagrams & projects across AWS, Azure, GCP, Docker & CI/CD
 
 [![GitHub last commit](https://img.shields.io/github/last-commit/Ashish-Langhe/devops-multicloud-journey?style=for-the-badge&color=00d4ff&labelColor=0d1117)](https://github.com/Ashish-Langhe/devops-multicloud-journey)
 [![GitHub commit activity](https://img.shields.io/github/commit-activity/w/Ashish-Langhe/devops-multicloud-journey?style=for-the-badge&color=00d4ff&labelColor=0d1117)](https://github.com/Ashish-Langhe/devops-multicloud-journey)

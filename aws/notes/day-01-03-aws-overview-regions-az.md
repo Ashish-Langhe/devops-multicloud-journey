@@ -96,5 +96,7 @@ Global
 ## 📌 What's Next
 
 - Understanding VPC (Virtual Private Cloud)
+- Public / Private subnets
+- Internet Gateway
+- Route table
 - EC2 Instances
-- S3 Buckets

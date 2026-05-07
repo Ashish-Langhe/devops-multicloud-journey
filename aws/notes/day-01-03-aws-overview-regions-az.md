@@ -1,3 +1,5 @@
+
+
 # Day 01-03 | AWS Overview, Regions & Availability Zones
 
 **Dates:** 12th April – 14th April  
@@ -65,27 +67,9 @@ Global
 
 ---
 
-## 🏗️ Architecture — Multi-AZ for High Availability
+## 🏗️ Architecture — AWS
 
-```
-AWS Account
-  └── Region (e.g., us-east-1)
-        └── VPC
-              ├── AZ-1a
-              │     └── Public Subnet → EC2 Instance
-              └── AZ-1b
-                    └── Public Subnet → EC2 Instance
-                          ↑
-                   Elastic Load Balancer (distributes traffic)
-                          ↑
-                      Internet Gateway
-                          ↑
-                      Route 53 (DNS)
-                          ↑
-                      www.yoursite.com
-```
-
-> **Note:** Multi-AZ gives high availability — even if 1a datacentre fails, application keeps running in 1b without issues.
+<img width="928" height="516" alt="Screenshot 2026-05-07 at 11 56 03 PM" src="https://github.com/user-attachments/assets/9572a65c-745c-470b-92fc-73111a6ced6d" />
 
 ---
 
@@ -112,5 +96,7 @@ AWS Account
 ## 📌 What's Next
 
 - Understanding VPC (Virtual Private Cloud)
+- Public / Private subnets
+- Internet Gateway
+- Route table
 - EC2 Instances
-- S3 Buckets

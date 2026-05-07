@@ -2,45 +2,224 @@
 
 # 🚀 DevOps MultiCloud Journey
 
-### Learning DevOps hands-on — notes, diagrams & projects across AWS, Azure, GCP, Docker, K8s & CI/CD
+<br/>
 
-[![GitHub last commit](https://img.shields.io/github/last-commit/Ashish-Langhe/devops-multicloud-journey?style=for-the-badge&color=00d4ff&labelColor=0d1117)](https://github.com/Ashish-Langhe/devops-multicloud-journey)
-[![GitHub commit activity](https://img.shields.io/github/commit-activity/w/Ashish-Langhe/devops-multicloud-journey?style=for-the-badge&color=00d4ff&labelColor=0d1117)](https://github.com/Ashish-Langhe/devops-multicloud-journey)
-[![GitHub repo size](https://img.shields.io/github/repo-size/Ashish-Langhe/devops-multicloud-journey?style=for-the-badge&color=00d4ff&labelColor=0d1117)](https://github.com/Ashish-Langhe/devops-multicloud-journey)
-[![GitHub stars](https://img.shields.io/github/stars/Ashish-Langhe/devops-multicloud-journey?style=for-the-badge&color=yellow&labelColor=0d1117)](https://github.com/Ashish-Langhe/devops-multicloud-journey)
+[![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=20&pause=800&color=00D4FF&center=true&vCenter=true&multiline=false&width=600&lines=Learning+DevOps+%7C+One+Commit+a+Day+%E2%9C%85;AWS+%7C+Azure+%7C+GCP+%7C+MultiCloud+%E2%98%81%EF%B8%8F;Docker+%7C+K8s+%7C+Terraform+%7C+CI%2FCD+%F0%9F%9B%A0%EF%B8%8F;Notes+%7C+Diagrams+%7C+Projects+%7C+Scripts+%F0%9F%93%9D)](https://git.io/typing-svg)
+
+<br/>
+
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![Azure](https://img.shields.io/badge/Azure-%230072C6.svg?style=for-the-badge&logo=microsoftazure&logoColor=white)
+![GCP](https://img.shields.io/badge/GCP-%234285F4.svg?style=for-the-badge&logo=googlecloud&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)
+![Terraform](https://img.shields.io/badge/Terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
+
+<br/>
+
+[![Last Commit](https://img.shields.io/github/last-commit/Ashish-Langhe/devops-multicloud-journey?style=flat-square&color=00d4ff&label=Last+Commit)](https://github.com/Ashish-Langhe/devops-multicloud-journey/commits)
+[![Commit Activity](https://img.shields.io/github/commit-activity/w/Ashish-Langhe/devops-multicloud-journey?style=flat-square&color=00d4ff&label=Weekly+Commits)](https://github.com/Ashish-Langhe/devops-multicloud-journey/commits)
+[![Repo Size](https://img.shields.io/github/repo-size/Ashish-Langhe/devops-multicloud-journey?style=flat-square&color=00d4ff)](https://github.com/Ashish-Langhe/devops-multicloud-journey)
+[![Stars](https://img.shields.io/github/stars/Ashish-Langhe/devops-multicloud-journey?style=flat-square&color=yellow)](https://github.com/Ashish-Langhe/devops-multicloud-journey/stargazers)
 
 </div>
 
 ---
 
-## 👋 About This Repo
+## 👨‍💻 About This Repo
 
-> A **daily log** of my hands-on DevOps and Multi-Cloud learning journey.
-> Every folder = a topic. Every file = a day of learning. Every commit = progress.
+> A **day-by-day DevOps & Multi-Cloud learning journal** — built in public.
+> Every topic has structured notes, real CLI commands, architecture diagrams, and hands-on projects.
+> **Updated after every class session.**
 
 ```
-📝 Notes & Explanations    →  Markdown notes after every class
-🏗️  Architecture Diagrams   →  ASCII architecture diagrams
-💻 Scripts & Commands      →  Real CLI commands used hands-on
-🔬 Projects                →  End-to-end hands-on projects
+📝  Notes          →  Structured markdown notes from every class
+🏗️   Architectures  →  ASCII architecture diagrams of what I built
+💻  Commands       →  Real CLI commands used during hands-on
+🔬  Projects       →  End-to-end mini projects
 ```
 
 ---
 
-## 🛠️ Tech Stack
+## ☁️ AWS Architecture — Built So Far
+
+```
+                         www.yourapp.com
+                                │
+                          Route 53 (DNS)
+                                │
+                     ┌─────────────────────┐
+                     │   Internet Gateway  │
+                     └──────────┬──────────┘
+                                │
+                     ┌─────────────────────┐
+                     │  Network Load       │
+                     │  Balancer (NLB)     │  ← Static Elastic IP
+                     │  TCP · public subnets│
+                     └──────────┬──────────┘
+                                │
+                     ┌─────────────────────┐
+                     │  App Load Balancer  │
+                     │  (ALB) · HTTP/HTTPS │  ← Path-based routing
+                     │  public subnet 1a+1b│
+                     └────────┬────────────┘
+                              │
+             ┌────────────────┴─────────────────┐
+             │                                  │
+  ┌──────────────────┐               ┌──────────────────┐
+  │  Private Subnet  │               │  Private Subnet  │
+  │    AZ: 1a        │               │    AZ: 1b        │
+  │  ┌────────────┐  │               │  ┌────────────┐  │
+  │  │  EC2 (App) │  │               │  │  EC2 (App) │  │
+  │  │  Nginx     │  │               │  │  Nginx     │  │
+  │  └────────────┘  │               │  └────────────┘  │
+  │  ASG scales ↕    │               │  ASG scales ↕    │
+  └──────────────────┘               └──────────────────┘
+             │
+  ┌──────────────────┐
+  │  Public Subnet   │
+  │  Bastion Host  ←─┼── Developer SSH
+  │  NAT Gateway   ──┼──→ Outbound internet for private servers
+  └──────────────────┘
+             │
+  ┌──────────────────┐
+  │  S3 Bucket       │  ← Logs · Backups · Artifacts · Static files
+  └──────────────────┘
+```
+
+---
+
+## 🗺️ Learning Roadmap
+
+```
+devops-multicloud-journey
+│
+├── 🔄 Phase 1 — AWS (In Progress — Day 18)
+│   │
+│   ├── ✅ Global Infrastructure
+│   │     Regions · Availability Zones · Data Centres
+│   │
+│   ├── ✅ Networking
+│   │     VPC · Subnets · CIDR · Route Tables · Internet Gateway
+│   │
+│   ├── ✅ Compute
+│   │     EC2 · AMI · Instance Types · Key Pairs · EBS
+│   │
+│   ├── ✅ Security
+│   │     Security Groups · Protocols · HTTP/HTTPS · TCP/UDP
+│   │
+│   ├── ✅ Connectivity
+│   │     Bastion Host · NAT Gateway · Elastic IP · ENI
+│   │
+│   ├── ✅ Load Balancing
+│   │     ALB · NLB · Target Groups · Path-Based Routing
+│   │     Health Checks · Round Robin · Stickiness
+│   │
+│   ├── ✅ Auto Scaling
+│   │     ASG · Launch Template · Custom AMI · Dynamic Scaling
+│   │     Horizontal vs Vertical · stress-ng testing
+│   │
+│   ├── ✅ Storage
+│   │     S3 · Buckets · Objects · Versioning · Access Control
+│   │
+│   └── 🔜 Coming Next
+│         IAM · CloudWatch · EKS · RDS · Lambda
+│
+├── 🔜 Phase 2 — Containerization
+│     Docker · Docker Compose · Container Registry
+│
+├── 🔜 Phase 3 — CI/CD
+│     GitHub Actions · Jenkins · Pipelines
+│
+├── 🔜 Phase 4 — Infrastructure as Code
+│     Terraform · CloudFormation · Ansible
+│
+├── 🔜 Phase 5 — Azure & GCP
+│     Azure Core · GCP Core · Multi-Cloud strategies
+│
+└── 🔜 Phase 6 — Monitoring & Observability
+      Prometheus · Grafana · CloudWatch · ELK Stack
+```
+
+---
+
+## 📅 Daily Learning Log
+
+| Day | Date | Topic | Key Concepts |
+|-----|------|-------|-------------|
+| 01–02 | 12 Apr | AWS Intro | Cloud platform, market share, global infra, pay-as-you-go |
+| 03 | 14 Apr | Regions & AZs | 33+ regions, 108+ AZs, multi-AZ HA, disaster recovery |
+| 04 | 15 Apr | Security Groups | Firewall, inbound/outbound rules, ports, protocols |
+| 05 | 16 Apr | Protocols & VPC | TCP/UDP, HTTP/HTTPS, VPC, CIDR calculation |
+| 06 | 17 Apr | EC2 + IGW | EC2 creation, Internet Gateway, Route Table, SSH |
+| 07 | 20 Apr | Custom Networking | Public/private subnets, `0.0.0.0/0`, subnet associations |
+| 08 | 21 Apr | Bastion + NAT | Jump host pattern, NAT gateway, private IP security |
+| 09 | 22 Apr | NAT Deep Dive | Stateful NAT, port mapping, outbound-only traffic |
+| 10 | 23 Apr | Web Deployment | Nginx install, HTML deploy, port 80, web server flow |
+| 11 | 29 Apr | ALB + TG | Application LB, Target Groups, health checks, Round Robin |
+| 12 | 30 Apr | ALB Hands-on | Private server → ALB config, Elastic IP lifecycle |
+| 13 | 1 May | Path Routing | ALB path-based routing, 1 ALB + 4 TGs, listener rules |
+| 14 | 2 May | ASG | Auto Scaling Group, AMI, Launch Template, horizontal scaling |
+| 15 | 4 May | ASG Deep Dive | `systemctl enable`, ELB health checks, stress-ng testing |
+| 16 | 5 May | NLB | Network LB, TCP protocol, NLB+ALB integration, static IP |
+| 17 | 6 May | ENI + Multi-path | Elastic Network Interface, multi-app single server, OS challenges |
+| 18 | 7 May | S3 | Simple Storage Service, buckets, objects, versioning |
+
+---
+
+## 📁 Repo Structure
+
+```
+devops-multicloud-journey/
+│
+├── README.md
+├── 00-roadmap.md
+├── .gitignore
+│
+├── aws/
+│   └── notes/
+│       ├── day-01-03-aws-overview-regions-az.md
+│       ├── day-04-05-security-groups-protocols.md
+│       ├── day-05-06-vpc-subnets-cidr.md
+│       ├── day-06-07-ec2-igw-routetable.md
+│       ├── day-08-09-bastion-nat-gateway.md
+│       ├── day-10-web-app-deployment.md
+│       ├── day-11-12-load-balancer-tg.md
+│       ├── day-13-path-based-routing.md
+│       ├── day-14-asg-dynamic-scaling.md
+│       ├── day-15-asg-nginx-enable-stress-test.md
+│       ├── day-16-nlb.md
+│       ├── day-17-multi-path-eni.md
+│       └── day-18-s3.md
+│
+├── docker/            ← coming soon
+├── kubernetes/        ← coming soon
+├── terraform/         ← coming soon
+├── azure/             ← coming soon
+└── gcp/               ← coming soon
+```
+
+---
+
+## 🛠️ Full Tech Stack
 
 <div align="center">
 
-**Cloud**
+**Cloud Platforms**
 
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 ![Azure](https://img.shields.io/badge/Azure-%230072C6.svg?style=for-the-badge&logo=microsoftazure&logoColor=white)
 ![GCP](https://img.shields.io/badge/GCP-%234285F4.svg?style=for-the-badge&logo=googlecloud&logoColor=white)
 
-**DevOps & Containers**
+**Containers & Orchestration**
 
 ![Docker](https://img.shields.io/badge/Docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)
+
+**Infrastructure as Code**
+
 ![Terraform](https://img.shields.io/badge/Terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white)
 ![Ansible](https://img.shields.io/badge/Ansible-%23EE0000.svg?style=for-the-badge&logo=ansible&logoColor=white)
 
@@ -64,134 +243,6 @@
 
 ---
 
-## 🗺️ Learning Roadmap
-
-```
-DevOps MultiCloud Journey
-│
-├── ✅ Phase 1 — AWS (In Progress)
-│     ├── ✅ Global Infrastructure (Regions, AZs)
-│     ├── ✅ VPC, Subnets, CIDR
-│     ├── ✅ EC2, IGW, Route Tables
-│     ├── ✅ Security Groups & Protocols
-│     ├── ✅ Bastion Host & NAT Gateway
-│     ├── ✅ Application Load Balancer (ALB)
-│     ├── ✅ Target Groups & Elastic IP
-│     ├── ✅ Path-Based Routing
-│     ├── ✅ Auto Scaling Group (ASG)
-│     ├── ✅ Network Load Balancer (NLB)
-│     └── 🔜 S3, IAM, CloudWatch, EKS
-│
-├── 🔜 Phase 2 — Containerization
-│     ├── 🔜 Docker
-│     └── 🔜 Docker Compose
-│
-├── 🔜 Phase 3 — CI/CD
-│     ├── 🔜 GitHub Actions
-│     └── 🔜 Jenkins
-│
-├── 🔜 Phase 4 — Infrastructure as Code
-│     ├── 🔜 Terraform
-│     └── 🔜 CloudFormation
-│
-├── 🔜 Phase 5 — Azure & GCP
-│
-└── 🔜 Phase 6 — Monitoring
-      ├── 🔜 Prometheus
-      └── 🔜 Grafana
-```
-
----
-
-## ☁️ AWS Architecture Learned So Far
-
-```
-                        www.yourapp.com
-                               │
-                          Route 53 (DNS)
-                               │
-                    ┌─────────────────────┐
-                    │   Internet Gateway  │
-                    └──────────┬──────────┘
-                               │
-                    ┌─────────────────────┐
-                    │  Application Load   │
-                    │  Balancer  (ALB)    │
-                    │  pub-subnet-1a + 1b │
-                    └────────┬────────────┘
-                             │
-              ┌──────────────┴───────────────┐
-              │                              │
-   ┌──────────────────┐          ┌──────────────────┐
-   │  Private Subnet  │          │  Private Subnet  │
-   │    AZ: 1a        │          │    AZ: 1b        │
-   │  ┌────────────┐  │          │  ┌────────────┐  │
-   │  │  EC2 (App) │  │          │  │  EC2 (App) │  │
-   │  └────────────┘  │          │  └────────────┘  │
-   │   ASG manages ↕  │          │   ASG manages ↕  │
-   └──────────────────┘          └──────────────────┘
-              │
-   ┌──────────────────┐
-   │  Public Subnet   │
-   │  Bastion Host ←──┼── Developer SSH
-   │  NAT Gateway  ───┼──→ Private servers get internet
-   └──────────────────┘
-```
-
----
-
-## 📅 Daily Commit Log
-
-| Day | Date | Topic | Summary |
-|-----|------|-------|---------|
-| Day 01–02 | 12 Apr | AWS Intro | AWS overview, market share, global infra |
-| Day 03 | 14 Apr | Regions & AZs | Regions, AZs, data centres, multi-AZ HA |
-| Day 04 | 15 Apr | Security Groups | Firewall, inbound/outbound rules, ports |
-| Day 05 | 16 Apr | Protocols & VPC | TCP/UDP, HTTP/HTTPS, VPC, CIDR |
-| Day 06 | 17 Apr | EC2 + Networking | EC2 creation, IGW, Route Table, SSH |
-| Day 07 | 20 Apr | Custom Networking | Public/Private subnets hands-on |
-| Day 08 | 21 Apr | Bastion + NAT | Bastion host, NAT Gateway setup |
-| Day 09 | 22 Apr | NAT Deep Dive | NAT stateful, port mapping, architecture |
-| Day 10 | 23 Apr | Web Deployment | Nginx install, HTML app deploy on EC2 |
-| Day 11 | 29 Apr | ALB + TG | Load balancer, target groups, health checks |
-| Day 12 | 30 Apr | ALB Hands-on | Private server → ALB config, Elastic IP |
-| Day 13 | 1 May | Path Routing | ALB path-based routing, 1 ALB + 4 TGs |
-| Day 14 | 2 May | ASG | Auto Scaling, AMI, Launch Template |
-| Day 16 | 5 May | NLB | Network LB, NLB + ALB integration |
-
----
-
-## 📁 Repo Structure
-
-```
-devops-multicloud-journey/
-│
-├── README.md                          ← You are here
-├── 00-roadmap.md                      ← Full learning checklist
-├── .gitignore
-│
-├── aws/
-│   └── notes/
-│       ├── day-01-03-aws-overview-regions-az.md
-│       ├── day-04-05-security-groups-protocols.md
-│       ├── day-05-06-vpc-subnets-cidr.md
-│       ├── day-06-07-ec2-igw-routetable.md
-│       ├── day-08-09-bastion-nat-gateway.md
-│       ├── day-10-web-app-deployment.md
-│       ├── day-11-12-load-balancer-tg.md
-│       ├── day-13-path-based-routing.md
-│       ├── day-14-asg-dynamic-scaling.md
-│       └── day-16-nlb.md
-│
-├── docker/            ← coming soon
-├── kubernetes/        ← coming soon
-├── terraform/         ← coming soon
-├── azure/             ← coming soon
-└── gcp/               ← coming soon
-```
-
----
-
 ## 📌 Connect
 
 <div align="center">
@@ -199,8 +250,10 @@ devops-multicloud-journey/
 [![GitHub](https://img.shields.io/badge/GitHub-Ashish--Langhe-181717?style=for-the-badge&logo=github)](https://github.com/Ashish-Langhe)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0077B5?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/ashish-langhe)
 
-**⭐ Star this repo if you find it helpful — it motivates daily learning!**
+<br/>
 
-`Updated daily` • `Learning in public` • `DevOps × MultiCloud`
+**⭐ Star this repo if you find it helpful!**
+
+`Learning in public` • `Updated daily` • `DevOps × MultiCloud`
 
 </div>

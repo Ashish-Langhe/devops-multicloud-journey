@@ -17,7 +17,10 @@
 | [day-11-12-load-balancer-tg.md](./day-11-12-load-balancer-tg.md) | Day 11–12 | ALB, Target Groups, Elastic IP |
 | [day-13-path-based-routing.md](./day-13-path-based-routing.md) | Day 13 | Path-Based Routing |
 | [day-14-asg-dynamic-scaling.md](./day-14-asg-dynamic-scaling.md) | Day 14 | ASG, AMI, Launch Template |
+| [day-15-asg-nginx-enable-stress-test.md](./day-15-asg-nginx-enable-stress-test.md) | Day 15 | systemctl enable, health checks, stress-ng |
 | [day-16-nlb.md](./day-16-nlb.md) | Day 16 | NLB, NLB+ALB integration |
+| [day-17-multi-path-eni.md](./day-17-multi-path-eni.md) | Day 17 | Multi-path on single server, ENI |
+| [day-18-s3.md](./day-18-s3.md) | Day 18 | S3, Buckets, Objects, Versioning |
 
 ---
 
@@ -38,11 +41,13 @@
 | Path-Based Routing | ✅ Done |
 | Auto Scaling Group (ASG) | ✅ Done |
 | Network Load Balancer (NLB) | ✅ Done |
-| NLB + ALB Integration | 🔄 In Progress |
+| NLB + ALB Integration | ✅ Done |
+| ENI (Elastic Network Interface) | ✅ Done |
+| S3 Basics | ✅ Done |
 | LB Stickiness | 🔜 Upcoming |
 | Scheduled Scaling | 🔜 Upcoming |
 | ASG Lifecycle Policy | 🔜 Upcoming |
-| S3 | 🔜 Upcoming |
+| S3 | ✅ Done |
 | IAM | 🔜 Upcoming |
 | CloudWatch | 🔜 Upcoming |
 

@@ -1,138 +1,69 @@
-# Day 06 — EC2 Creation, Internet Gateway & Route Table
+# Day 06 — Key Pair, Internet Gateway, Route Table & Public Subnet
 
 > 📅 **Date:** 17th April  
-> 🏷️ **Topic:** EC2 requirements, AMI, Key Pair, Internet Gateway, Route Table, Public Subnet setup
+> 🏷️ **Topic:** Key Pair authentication, Internet Gateway, Route Table, Creating a Public Subnet
 
 ---
 
-## 💻 EC2 = Your Server on AWS
+## 🔑 Key Pair — Server Authentication
 
-> **EC2 (Elastic Compute Cloud) = Virtual Machine = Server**  
-> `EC2 = vm = server`
+> **Key Pair = the mechanism used to authenticate and log into your EC2 server**
 
----
-
-## 🧩 5 Requirements to Create an EC2
-
+### How it works
 ```
-┌─────────────────────────────────────────────────────────────┐
-│              EC2 Creation Requirements                      │
-├──────────────────────────┬──────────────────────────────────┤
-│  What you need           │  AWS Service / Component         │
-├──────────────────────────┼──────────────────────────────────┤
-│  1. OS (Operating System)│  AMI (Amazon Machine Image)      │
-│  2. Hardware CPU + RAM   │  Instance Type (e.g., t2.micro)  │
-│  3. Hard Disk (Storage)  │  EBS (Elastic Block Storage)     │
-│  4. Networking           │  VPC + Subnet + Security Group   │
-│  5. Authentication       │  Key Pair (.pem / .ppk)          │
-└──────────────────────────┴──────────────────────────────────┘
-```
+Key Pair creates TWO keys:
 
----
-
-## 📀 Requirement 1 — AMI (Amazon Machine Image)
-
-> **AMI = OS + pre-installed applications packaged as an image**
-
-- AMI = blueprint for your server's OS
-- Examples: Amazon Linux 2023, Ubuntu 22.04, Windows Server 2022, RHEL
-- **AMI is region-specific** — you cannot use an AMI from `us-east-1` in `ap-south-1`
-
-```
-AMI contains:
-├── Operating System (Linux / Windows)
-├── Pre-installed software (optional)
-└── Disk configuration
-
-When you launch EC2 → AMI is cloned → your server boots up
-```
-
-> 💡 Later you'll create **Custom AMIs** — snapshot your EC2 with your app installed, use it to launch identical servers via ASG.
-
----
-
-## ⚡ Requirement 2 — Instance Type (Hardware)
-
-> **Instance Type = CPU + RAM configuration**
-
-| Instance | vCPUs | RAM | Use Case |
-|----------|-------|-----|---------|
-| t2.micro | 1 | 1 GB | Free tier / testing |
-| t2.small | 1 | 2 GB | Light workloads |
-| t2.medium | 2 | 4 GB | Dev environments |
-| t2.large | 2 | 8 GB | Medium workloads |
-| t3.xlarge | 4 | 16 GB | Production apps |
-
----
-
-## 💾 Requirement 3 — EBS (Elastic Block Storage)
-
-> **EBS = Hard disk attached to your EC2 instance**
-
-- Default: 8 GB root volume
-- You can increase size as needed
-- EBS persists even if EC2 is stopped (data not lost)
-
----
-
-## 🌐 Requirement 4 — Networking (VPC + Subnet + SG)
-
-```
-EC2 must be placed inside:
-├── VPC        → your private network
-├── Subnet     → subdivision of VPC (which AZ)
-└── Security Group → firewall rules for this server
-```
-
----
-
-## 🔑 Requirement 5 — Key Pair (Authentication)
-
-> **Key Pair = Authentication mechanism to log into your server**
-
-```
-Key Pair
-├── Public Key  →  stored ON the server (destination)
-└── Private Key →  kept on YOUR laptop (source) — never share!
-
-Private key file formats:
-├── .pem  →  for OpenSSH / terminal (Mac, Linux)
-└── .ppk  →  for PuTTY (Windows)
+  Public Key   →  stored ON the EC2 server  (destination end)
+  Private Key  →  downloaded to YOUR laptop (source end)
+                  NEVER share this with anyone
 ```
 
 ```
-Your Laptop                         EC2 Server
-┌──────────────┐                  ┌─────────────┐
-│ private.pem  │ ←── SSH ──────→  │ public key  │
-│ (secret)     │                  │ (stored)    │
-└──────────────┘                  └─────────────┘
+Your Laptop                           EC2 Server
+┌──────────────────┐                ┌──────────────┐
+│  privatekey.pem  │ ──── SSH ────→ │  public key  │
+│  (keep secret)   │                │  (on server) │
+└──────────────────┘                └──────────────┘
 ```
 
-> ⚠️ **You can only download the private key ONCE** — at creation time. If lost, you cannot SSH into the server.
+### Key file formats
+```
+.pem  →  for OpenSSH / Terminal (Mac, Linux)
+.ppk  →  for PuTTY (Windows)
+```
+
+> ⚠️ **Download the private key ONCE only** — at creation time.  
+> If you lose it, you permanently lose SSH access to that server.
+
+### How to create a Key Pair in AWS
+```
+EC2 Console → Network & Security → Key Pairs
+  → Create key pair
+  → Name: loginsh  (any name)
+  → Type: RSA
+  → Format: .pem  (OpenSSH) or .ppk (PuTTY)
+  → Create → .pem downloads automatically to your laptop
+```
 
 ---
 
 ## 🌍 Internet Gateway (IGW)
 
-> **IGW = The door between your VPC and the public internet**
+> **IGW = the door between your VPC and the public internet**
 
 - Attached at the **VPC level**
-- Required for ANY subnet to have internet connectivity
-- Without IGW → even a "public" EC2 cannot be reached from internet
+- Without IGW → even if you launch an EC2 with a public IP, it is unreachable
+- Just creating IGW is not enough → you must **attach it to VPC** AND **add a route in the Route Table**
 
 ```
 Internet
-    │
     ↓
 Internet Gateway (IGW)
-    │  ← attached to VPC
-    ↓
-VPC
+    ↓  ← attached to VPC
+VPC (10.0.0.0/16)
     └── Public Subnet
           └── EC2 (now reachable from internet ✅)
 ```
-
-> ⚠️ Just creating an IGW is not enough — you must also **attach it to the VPC** and **add a route in the Route Table**
 
 ---
 
@@ -140,99 +71,95 @@ VPC
 
 > **Route Table = Router for the VPC — tells traffic WHERE to go**
 
-- Every VPC has a default route table
+- Every VPC gets a **default route table** automatically
 - You create a **custom route table** for your public subnet
-- Route table rules define where traffic is forwarded
+- Route table entries define where each traffic type is forwarded
 
 ### Route Table Rules
 | Destination | Target | Meaning |
 |-------------|--------|---------|
-| `10.0.0.0/16` | local | Stay inside VPC |
-| `0.0.0.0/0` | IGW | All other traffic → go to internet |
+| `10.0.0.0/16` | local | Traffic within VPC stays inside VPC |
+| `0.0.0.0/0` | IGW | All other traffic → goes to internet |
 
 ```
-`0.0.0.0/0`  means "any IP address" = internet traffic
-When destination = 0.0.0.0/0, target = IGW
-→ This makes the subnet PUBLIC (internet-accessible)
-```
+0.0.0.0/0  =  ANY IP address  =  internet traffic
 
----
-
-## 🏗️ How to Create a Public Subnet — Step by Step
-
-```
-STEP ①  Create VPC
-         Region: select your region
-         CIDR: 10.0.0.0/16
-
-STEP ②  Create Subnet inside VPC
-         AZ: us-east-1a
-         CIDR: 10.0.0.0/24
-
-STEP ③  Create Internet Gateway → Attach to VPC
-
-STEP ④  Create Route Table inside same VPC
-
-STEP ⑤  Add Route in Route Table
-         Destination: 0.0.0.0/0
-         Target: Internet Gateway (IGW)
-
-STEP ⑥  Associate Subnet with Route Table
-
-STEP ⑦  Launch EC2 inside subnet
-         Enable: Auto-assign Public IP = ON
-```
-
-### Visual: What gets created
-```
-VPC: 10.0.0.0/16
-┌─────────────────────────────────────────┐
-│                            ③ IGW        │
-│                            ↕            │
-│                         ⑤ RT           │
-│                      (0.0.0.0/0 → IGW) │
-│          ⑥ Subnet Association          │
-│  ┌──────────────────────────────┐       │
-│  │  ② Public Subnet             │       │
-│  │  10.0.0.0/24                 │       │
-│  │                              │       │
-│  │  ⑦ EC2  (public server)     │       │
-│  └──────────────────────────────┘       │
-└─────────────────────────────────────────┘
+Adding  0.0.0.0/0 → IGW  to a Route Table
+  = all internet-bound traffic goes out through IGW
+  = this is what makes a subnet PUBLIC
 ```
 
 ---
 
-## 🔑 What Makes a Subnet "Public"?
+## 🏗️ What Makes a Subnet "Public" or "Private"?
 
 ```
-Public Subnet  = Subnet + Route Table with 0.0.0.0/0 → IGW
-Private Subnet = Subnet + Route Table WITHOUT internet route
+The subnet itself has NO inherent nature.
+The ROUTE TABLE attached to it defines its behaviour.
 
-The subnet itself is NOT public or private by nature.
-The ROUTE TABLE makes it public or private.
+Public Subnet  →  Route Table HAS  0.0.0.0/0 → IGW
+Private Subnet →  Route Table does NOT have an internet route
 ```
 
 | | Public Subnet | Private Subnet |
 |--|--------------|----------------|
-| Has route to IGW | ✅ Yes | ❌ No |
-| EC2 gets Public IP | ✅ Can be enabled | ❌ No public IP |
-| Internet can reach EC2 | ✅ Yes | ❌ No |
-| EC2 can reach internet | ✅ Yes | ❌ No (needs NAT) |
-| Use case | Bastion, LB, NAT GW | App servers, DBs |
+| Route to IGW | ✅ Yes | ❌ No |
+| EC2 gets Public IP | ✅ Can be enabled | ❌ No |
+| Reachable from internet | ✅ Yes | ❌ No |
+| Can reach internet | ✅ Yes | ❌ No (needs NAT) |
+| Use case | Bastion, Load Balancer, NAT GW | App servers, Databases |
 
 ---
 
-## 🌐 Visual Subnet Calculator Tool
+## 🛠️ Creating a Public Subnet — Step by Step
 
-> **Tip from class:** Use [cidr.xyz](https://cidr.xyz) or visual subnet calculator tools to verify your CIDR ranges before applying.
+> Exact steps from class — numbered to match the architecture diagram:
 
 ```
-Example from class:
-Network: 10.0.0.0 / Mask: /16
-→ Range: 192.168.0.0 → 192.168.255.255
-→ Usable IPs: 65,534
-→ Hosts: 65,534
+STEP ①  Create VPC
+          Select your region
+          CIDR: 10.0.0.0/16
+
+STEP ②  Create EC2 (inside the subnet you will create)
+          Instance type, SG, select VPC
+
+STEP ③  Create Internet Gateway → Attach to VPC
+
+STEP ④  Create Route Table inside the same VPC
+
+STEP ⑤  Add Route inside Route Table
+          Destination: 0.0.0.0/0
+          Target: Internet Gateway (select your IGW)
+          → Edit routes → Save changes
+
+STEP ⑥  Associate Subnet with Route Table
+          → Subnet associations → Edit subnet associations
+          → Select your subnet → Save
+
+STEP ⑦  Enable Auto-assign Public IP on the subnet
+          Subnet settings → Enable auto-assign public IPv4 address
+          → Now EC2 launched in this subnet gets a public IP ✅
+```
+
+### Architecture — What these steps build
+
+```
+VPC: 10.0.0.0/16
+┌──────────────────────────────────────────────────┐
+│                                                  │
+│                     ③ IGW                        │
+│                       ↕  ⑤ edit routes          │
+│                     ④ RT                         │
+│               (0.0.0.0/0 → IGW)                 │
+│          ⑥ subnet association                   │
+│  ┌───────────────────────────┐  ┌─────────────┐ │
+│  │  Public Subnet            │  │   Private   │ │
+│  │  10.0.0.0/24              │  │   Subnet    │ │
+│  │  ② EC2  [SG] ⑦          │  │  EC2 (app)  │ │
+│  │  public server            │  │  Flipkart   │ │
+│  └───────────────────────────┘  └─────────────┘ │
+│        ↑ internet reachable       ✗ isolated     │
+└──────────────────────────────────────────────────┘
 ```
 
 ---
@@ -241,16 +168,17 @@ Network: 10.0.0.0 / Mask: /16
 
 | Concept | One-liner |
 |---------|-----------|
-| EC2 | Virtual machine — needs AMI + type + EBS + network + key |
-| AMI | OS + apps packaged as image — region-specific |
-| Instance type | CPU + RAM config (t2.micro = 1 vCPU, 1 GB RAM) |
-| EBS | Hard disk for EC2 — persists after stop |
-| Key pair | Private key on your laptop, public key on server — never share private |
-| IGW | Door from VPC to internet — must be attached to VPC |
-| Route Table | Router — `0.0.0.0/0 → IGW` makes subnet public |
-| Public subnet | Subnet with RT pointing to IGW |
-| Private subnet | Subnet WITHOUT internet route in RT |
+| Key Pair | Public key on server, private key on your laptop — download once only |
+| `.pem` | For Mac/Linux terminal (OpenSSH) |
+| `.ppk` | For Windows PuTTY |
+| IGW | Door between VPC and internet — must be attached to VPC |
+| Route Table | Router for VPC — defines where traffic goes |
+| `0.0.0.0/0 → IGW` | The single rule that makes a subnet public |
+| Public subnet | Subnet whose RT has a route to IGW |
+| Private subnet | Subnet whose RT has NO internet route |
+| Subnet association | RT must be explicitly linked to subnet to take effect |
+| Auto-assign public IP | Must be enabled on subnet so EC2 gets a public IP |
 
 ---
 
-> 📎 **Next:** Day 07 — Custom Networking, Public & Private Subnets Hands-On, SSH Connection
+> 📎 **Next:** Day 07 — Custom Networking Hands-On, Public & Private Subnets, SSH Connection

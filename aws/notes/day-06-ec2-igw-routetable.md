@@ -30,27 +30,6 @@
 
 ---
 
-## 📀 Requirement 1 — AMI (Amazon Machine Image)
-
-> **AMI = OS + pre-installed applications packaged as an image**
-
-- AMI = blueprint for your server's OS
-- Examples: Amazon Linux 2023, Ubuntu 22.04, Windows Server 2022, RHEL
-- **AMI is region-specific** — you cannot use an AMI from `us-east-1` in `ap-south-1`
-
-```
-AMI contains:
-├── Operating System (Linux / Windows)
-├── Pre-installed software (optional)
-└── Disk configuration
-
-When you launch EC2 → AMI is cloned → your server boots up
-```
-
-> 💡 Later you'll create **Custom AMIs** — snapshot your EC2 with your app installed, use it to launch identical servers via ASG.
-
----
-
 ## ⚡ Requirement 2 — Instance Type (Hardware)
 
 > **Instance Type = CPU + RAM configuration**

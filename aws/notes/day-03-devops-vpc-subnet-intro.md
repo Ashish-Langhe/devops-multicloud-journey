@@ -55,6 +55,13 @@ DevOps manages only logical resources ✅
 
 ---
 
+## 📐 How VPC, Subnet, Server Relate
+
+<img width="1082" height="651" alt="Basic vpn, igw, rt, subnet flow architecture" src="https://github.com/user-attachments/assets/a54346e4-6754-4916-b6d5-35e08d31e592" />
+
+
+---
+
 ## ☁️ VPC — Virtual Private Cloud
 
 ### What is VPC?
@@ -179,30 +186,6 @@ This is the architecture you'll learn to build:
 ```
 
 > 💡 This is called a **3-Tier Architecture** — Web tier, App tier, Database tier — all in different subnets across multiple AZs.
-
----
-
-## 📐 How VPC, Subnet, Server Relate
-
-```
-┌─── AWS Account ──────────────────────────────────┐
-│                                                   │
-│  ┌─── Region (ap-south-1) ─────────────────────┐ │
-│  │                                              │ │
-│  │  ┌─── VPC (10.0.0.0/16) ────────────────┐  │ │
-│  │  │                                       │  │ │
-│  │  │  ┌── Subnet (AZ-1a) ──┐              │  │ │
-│  │  │  │  EC2  EC2  EC2     │              │  │ │
-│  │  │  └───────────────────┘              │  │ │
-│  │  │                                       │  │ │
-│  │  │  ┌── Subnet (AZ-1b) ──┐              │  │ │
-│  │  │  │  EC2  EC2          │              │  │ │
-│  │  │  └───────────────────┘              │  │ │
-│  │  │                                       │  │ │
-│  │  └───────────────────────────────────────┘  │ │
-│  └──────────────────────────────────────────────┘ │
-└───────────────────────────────────────────────────┘
-```
 
 ---
 

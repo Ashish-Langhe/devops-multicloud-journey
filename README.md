@@ -104,24 +104,21 @@ devops-multicloud-journey
 │   ├── ✅ Networking
 │   │     VPC · Subnets · CIDR · Route Tables · Internet Gateway
 │   │
-│   ├── ✅ Compute
-│   │     EC2 · AMI · Instance Types · Key Pairs · EBS
-│   │
 │   ├── ✅ Security
 │   │     Security Groups · Protocols · HTTP/HTTPS · TCP/UDP
 │   │
 │   ├── ✅ Connectivity
-│   │     Bastion Host · NAT Gateway · Elastic IP · ENI
+│   │     Key Pair · Bastion Host · NAT Gateway · Elastic IP · ENI
 │   │
 │   ├── ✅ Load Balancing
 │   │     ALB · NLB · Target Groups · Path-Based Routing
-│   │     Health Checks · Round Robin · Stickiness
+│   │     Health Checks · Round Robin · Listener Rules
 │   │
 │   ├── ✅ Auto Scaling
-│   │     ASG · Launch Template · Custom AMI · Dynamic Scaling
+│   │     ASG · Launch Template · Dynamic Scaling
 │   │     Horizontal vs Vertical · stress-ng testing
 │   │
-│   ├── ✅ Storage
+│   ├── 🔄 Storage
 │   │     S3 · Buckets · Objects · Versioning · Access Control
 │   │
 │   └── 🔜 Coming Next
@@ -149,21 +146,22 @@ devops-multicloud-journey
 
 | Day | Date | Topic | Key Concepts |
 |-----|------|-------|-------------|
-| 01–02 | 12 Apr | AWS Intro | Cloud platform, market share, global infra, pay-as-you-go |
-| 03 | 14 Apr | Regions & AZs | 33+ regions, 108+ AZs, multi-AZ HA, disaster recovery |
-| 04 | 15 Apr | Security Groups | Firewall, inbound/outbound rules, ports, protocols |
-| 05 | 16 Apr | Protocols & VPC | TCP/UDP, HTTP/HTTPS, VPC, CIDR calculation |
-| 06 | 17 Apr | EC2 + IGW | EC2 creation, Internet Gateway, Route Table, SSH |
-| 07 | 20 Apr | Custom Networking | Public/private subnets, `0.0.0.0/0`, subnet associations |
-| 08 | 21 Apr | Bastion + NAT | Jump host pattern, NAT gateway, private IP security |
-| 09 | 22 Apr | NAT Deep Dive | Stateful NAT, port mapping, outbound-only traffic |
-| 10 | 23 Apr | Web Deployment | Nginx install, HTML deploy, port 80, web server flow |
-| 11 | 29 Apr | ALB + TG | Application LB, Target Groups, health checks, Round Robin |
-| 12 | 30 Apr | ALB Hands-on | Private server → ALB config, Elastic IP lifecycle |
-| 13 | 1 May | Path Routing | ALB path-based routing, 1 ALB + 4 TGs, listener rules |
-| 14 | 2 May | ASG | Auto Scaling Group, AMI, Launch Template, horizontal scaling |
-| 15 | 4 May | ASG Deep Dive | `systemctl enable`, ELB health checks, stress-ng testing |
-| 16 | 5 May | NLB | Network LB, TCP protocol, NLB+ALB integration, static IP |
+| 01 | 12 Apr | AWS Intro | Cloud platform, market share, global infra, pay-as-you-go |
+| 02 | 13 Apr | Regions & AZs | 33+ regions, 108+ AZs, multi-AZ HA, disaster recovery |
+| 03 | 14 Apr | DevOps + VPC Intro | DevOps role, on-prem vs cloud, VPC & subnet intro |
+| 04 | 15 Apr | Security Groups | Firewall, inbound/outbound rules, ports, HTTP/HTTPS |
+| 05 | 16 Apr | TCP/UDP + CIDR | TCP vs UDP, VPC sizing, CIDR calculation, subnet creation |
+| 06 | 17 Apr | Key Pair + IGW + RT | Key pair auth, Internet Gateway, Route Table, public subnet |
+| 07 | 20 Apr | Custom Networking | Public/private subnets, SSH hands-on, troubleshooting |
+| 08 | 21 Apr | Bastion + NAT Intro | Jump host pattern, NAT gateway intro, app deployment need |
+| 09 | 22 Apr | NAT Deep Dive | Stateful NAT, port mapping, outbound-only security model |
+| 10 | 23 Apr | Web Deployment | Nginx install, HTML deploy, port 80, SG rules |
+| 11 | 29 Apr | ALB + TG | Application LB, Target Groups, AZ matching, Round Robin |
+| 12 | 30 Apr | ALB Hands-on | Private server config, Listener, health checks, Elastic IP |
+| 13 | 1 May | Path Routing | ALB vs NLB, path-based routing, 1 ALB + multiple TGs |
+| 14 | 2 May | ASG | Auto Scaling Group, Launch Template, horizontal scaling |
+| 15 | 4 May | ASG Deep Dive | systemctl enable, ELB health checks, stress-ng testing |
+| 16 | 5 May | NLB | Network LB, TCP protocol, static IP, NLB+ALB integration |
 | 17 | 6 May | ENI + Multi-path | Elastic Network Interface, multi-app single server, OS challenges |
 | 18 | 7 May | S3 | Simple Storage Service, buckets, objects, versioning |
 
@@ -180,13 +178,19 @@ devops-multicloud-journey/
 │
 ├── aws/
 │   └── notes/
-│       ├── day-01-03-aws-overview-regions-az.md
-│       ├── day-04-05-security-groups-protocols.md
-│       ├── day-05-06-vpc-subnets-cidr.md
-│       ├── day-06-07-ec2-igw-routetable.md
-│       ├── day-08-09-bastion-nat-gateway.md
+│       ├── README.md
+│       ├── day-01-aws-intro.md
+│       ├── day-02-regions-az.md
+│       ├── day-03-devops-vpc-subnet-intro.md
+│       ├── day-04-security-groups.md
+│       ├── day-05-tcp-udp-vpc-cidr.md
+│       ├── day-06-ec2-igw-routetable.md
+│       ├── day-07-custom-networking-ssh.md
+│       ├── day-08-bastion-nat-intro.md
+│       ├── day-09-nat-gateway-deep-dive.md
 │       ├── day-10-web-app-deployment.md
-│       ├── day-11-12-load-balancer-tg.md
+│       ├── day-11-alb-target-groups.md
+│       ├── day-12-alb-handson-elastic-ip.md
 │       ├── day-13-path-based-routing.md
 │       ├── day-14-asg-dynamic-scaling.md
 │       ├── day-15-asg-nginx-enable-stress-test.md

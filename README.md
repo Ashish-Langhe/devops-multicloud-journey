@@ -84,9 +84,13 @@
   │  NAT Gateway   ──┼──→ Outbound internet for private servers
   └──────────────────┘
              │
-  ┌──────────────────┐
-  │  S3 Bucket       │  ← Logs · Backups · Artifacts · Static files
-  └──────────────────┘
+  ┌──────────────────────────────────────┐
+  │  S3 Bucket                           │
+  │  · Logs · Backups · Artifacts        │
+  │  · Static Website Hosting            │
+  │  · Storage Classes (Standard → Deep) │
+  │  · Lifecycle Rules (auto-transition) │
+  └──────────────────────────────────────┘
 ```
 
 ---
@@ -96,7 +100,7 @@
 ```
 devops-multicloud-journey
 │
-├── 🔄 Phase 1 — AWS (In Progress — Day 18)
+├── 🔄 Phase 1 — AWS (In Progress — Day 21)
 │   │
 │   ├── ✅ Global Infrastructure
 │   │     Regions · Availability Zones · Data Centres
@@ -113,16 +117,18 @@ devops-multicloud-journey
 │   ├── ✅ Load Balancing
 │   │     ALB · NLB · Target Groups · Path-Based Routing
 │   │     Health Checks · Round Robin · Listener Rules
+│   │     Reverse Proxy (Nginx + ALB)
 │   │
 │   ├── ✅ Auto Scaling
 │   │     ASG · Launch Template · Dynamic Scaling
 │   │     Horizontal vs Vertical · stress-ng testing
 │   │
 │   ├── 🔄 Storage
-│   │     S3 · Buckets · Objects · Versioning · Access Control
+│   │     S3 · Buckets · Objects · Versioning · Presigned URLs
+│   │     Static Website Hosting · Storage Classes · Lifecycle Rules
 │   │
 │   └── 🔜 Coming Next
-│         IAM · CloudWatch · EKS · RDS · Lambda
+│         IAM · CloudWatch · CloudFront · EKS · RDS · Lambda
 │
 ├── 🔜 Phase 2 — Containerization
 │     Docker · Docker Compose · Container Registry
@@ -163,7 +169,10 @@ devops-multicloud-journey
 | 15 | 4 May | ASG Deep Dive | systemctl enable, ELB health checks, stress-ng testing |
 | 16 | 5 May | NLB | Network LB, TCP protocol, static IP, NLB+ALB integration |
 | 17 | 6 May | ENI + Multi-path | Elastic Network Interface, multi-app single server, OS challenges |
-| 18 | 7 May | S3 | Simple Storage Service, buckets, objects, versioning |
+| 18 | 7 May | S3 Basics | Simple Storage Service, buckets, objects, versioning |
+| 19 | 8 May | S3 Deep Dive | Multi-AZ replication, presigned URLs, S3 Select vs Athena, static website hosting |
+| 20 | 9 May | S3 Storage Classes Intro | 7 storage classes overview, cost tiers, minimum billing periods |
+| 21 | 11 May | S3 Storage Classes + Lifecycle | Deep dive per class, lifecycle rules, auto-transition, reverse proxy with ALB ✅ |
 
 ---
 
@@ -196,7 +205,10 @@ devops-multicloud-journey/
 │       ├── day-15-asg-nginx-enable-stress-test.md
 │       ├── day-16-nlb.md
 │       ├── day-17-multi-path-eni.md
-│       └── day-18-s3.md
+│       ├── day-18-s3.md
+│       ├── day-19-s3-deep-dive.md
+│       ├── day-20-s3-storage-classes-intro.md
+│       └── day-21-s3-storage-classes-lifecycle.md
 │
 ├── docker/            ← coming soon
 ├── kubernetes/        ← coming soon

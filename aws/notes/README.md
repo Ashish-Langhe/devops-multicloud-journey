@@ -29,7 +29,8 @@
 | 18 | 7 May  | [day-18-s3.md](day-18-s3.md) | S3 intro, buckets, objects, versioning basics |
 | 19 | 8 May  | [day-19-s3-deep-dive.md](day-19-s3-deep-dive.md) | Multi-AZ replication, presigned URLs, S3 Select vs Athena, static website hosting |
 | 20 | 9 May  | [day-20-s3-storage-classes-intro.md](day-20-s3-storage-classes-intro.md) | 7 storage classes overview, cost tiers, minimum billing periods |
-| 21 | 11 May | [day-21-s3-storage-classes-lifecycle.md](day-21-s3-storage-classes-lifecycle.md) | Storage classes deep dive, lifecycle rules, reverse proxy with ALB ✅ |
+| 21a | 11 May | [day-21-s3-storage-classes-lifecycle.md](day-21-s3-storage-classes-lifecycle.md) | S3 storage classes deep dive, lifecycle rules, transitions, expiration ✅ |
+| 21b | 11 May | [day-21-reverse-proxy-3-ec2.md](day-21-reverse-proxy-3-ec2.md) | Reverse proxy with Nginx, 3-EC2 architecture (LB + Frontend + Backend) ✅ |
 
 ---
 

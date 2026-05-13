@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flipkart — India's Online Marketplace</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── RESET & TOKENS ──────────────────────────────────────── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --fk:#2874F0;--fk2:#0050c8;
+  --yo:#FFD000;
+  --or:#FF6D00;
+  --gr:#00C853;
+  --rd:#FF1744;
+  --bg:#F1F3F6;
+  --card:#fff;
+  --txt:#212121;
+  --sub:#666;
+  --bdr:#e0e0e0;
+  --shadow:0 2px 12px rgba(0,0,0,.10);
+  --r:8px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--txt);overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button{cursor:pointer;border:none;font-family:inherit}
+img,svg{display:block}
+
+/* ── SCROLLBAR ───────────────────────────────────────────── */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:#f0f0f0}
+::-webkit-scrollbar-thumb{background:var(--fk);border-radius:3px}
+
+/* ── MARQUEE TICKER ──────────────────────────────────────── */
+.ticker{
+  background:linear-gradient(90deg,#FF6D00,#c62828,#6a1b9a,#1565c0,#00695c,#FF6D00);
+  background-size:300% 100%;
+  animation:tickerBg 6s linear infinite;
+  padding:7px 0;overflow:hidden;
+}
+@keyframes tickerBg{0%{background-position:0% 0}100%{background-position:300% 0}}
+.ticker-track{display:flex;width:max-content;animation:ticker 35s linear infinite}
+.ticker-track:hover{animation-play-state:paused}
+.ticker-item{white-space:nowrap;color:#fff;font-size:12.5px;font-weight:700;padding:0 48px;letter-spacing:.3px}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ── NAV ─────────────────────────────────────────────────── */
+.nav{
+  background:linear-gradient(135deg,var(--fk) 0%,var(--fk2) 100%);
+  position:sticky;top:0;z-index:1000;
+  box-shadow:0 2px 20px rgba(40,116,240,.4);
+}
+.nav-inner{max-width:1300px;margin:auto;display:flex;align-items:center;gap:16px;padding:0 20px;height:60px}
+.nav-logo{display:flex;flex-direction:column;flex-shrink:0}
+.logo-name{color:#fff;font-family:'Nunito',sans-serif;font-size:26px;font-weight:900;font-style:italic;letter-spacing:-1px;line-height:1}
+.logo-sub{color:var(--yo);font-size:10px;font-style:italic;letter-spacing:.5px}
+.nav-search{flex:1;display:flex;border-radius:4px;overflow:hidden;height:38px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.nav-search input{flex:1;border:none;outline:none;padding:0 16px;font-size:14px;font-family:inherit}
+.nav-search button{background:var(--yo);border:none;padding:0 18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.nav-search button svg{width:18px;height:18px}
+.nav-links{display:flex;align-items:center;gap:4px;flex-shrink:0}
+.nav-btn{
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+  color:#fff;padding:6px 14px;border-radius:4px;font-size:13px;font-weight:600;
+  cursor:pointer;transition:.2s;white-space:nowrap;
+}
+.nav-btn:hover{background:rgba(255,255,255,.28)}
+.nav-btn.solid{background:#fff;color:var(--fk);border-color:#fff}.nav-btn.solid:hover{background:#e8f0fe}
+.cart-wrap{position:relative;cursor:pointer;color:#fff;font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:4px;transition:.2s}
+.cart-wrap:hover{background:rgba(255,255,255,.15)}
+.cart-badge{position:absolute;top:-2px;right:4px;background:var(--or);color:#fff;border-radius:50%;width:17px;height:17px;font-size:9px;font-weight:900;display:flex;align-items:center;justify-content:center}
+
+/* ── HERO SLIDER ─────────────────────────────────────────── */
+.hero{position:relative;overflow:hidden;background:#000;max-height:330px}
+.slider-track{display:flex;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.slide{min-width:100%;height:330px;display:flex;align-items:center;padding:0 80px;gap:40px;overflow:hidden;position:relative}
+.sl-0{background:linear-gradient(135deg,#0a1628 0%,#0d2780 40%,#1a52c9 70%,#2874F0 100%)}
+.sl-1{background:linear-gradient(135deg,#1a0030 0%,#4a0080 40%,#7b00d4 70%,#b020ff 100%)}
+.sl-2{background:linear-gradient(135deg,#1a0a00 0%,#8b2a00 40%,#d44000 70%,#FF6D00 100%)}
+.sl-3{background:linear-gradient(135deg,#001a0a 0%,#005c1f 40%,#008c30 70%,#00C853 100%)}
+.slide::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='1' fill='white' fill-opacity='0.04'/%3E%3C/svg%3E") repeat}
+.slide-text{z-index:2;color:#fff;flex:1}
+.slide-eyebrow{display:inline-flex;align-items:center;gap:6px;background:rgba(255,220,0,.15);border:1px solid rgba(255,220,0,.4);border-radius:20px;padding:4px 12px;margin-bottom:12px}
+.slide-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:#FFD000;animation:blink 1s ease infinite}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.7)}}
+.slide-eyebrow span{color:#FFD000;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
+.slide-h1{font-family:'Nunito',sans-serif;font-size:48px;font-weight:900;line-height:1;margin-bottom:10px;text-shadow:0 2px 20px rgba(0,0,0,.4)}
+.slide-sub{font-size:15px;opacity:.8;margin-bottom:22px;line-height:1.5}
+.slide-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--yo);color:#000;
+  padding:12px 28px;border-radius:5px;
+  font-size:14px;font-weight:800;border:none;cursor:pointer;
+  transition:all .25s;box-shadow:0 4px 20px rgba(255,208,0,.4);text-decoration:none;
+}
+.slide-cta:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(255,208,0,.6);background:#ffe600}
+.slide-imgs{display:flex;gap:16px;align-items:flex-end;flex-shrink:0;z-index:2}
+.slide-img-wrap{animation:float 3.5s ease-in-out infinite;filter:drop-shadow(0 16px 32px rgba(0,0,0,.5))}
+.slide-img-wrap:nth-child(1){animation-delay:0s}
+.slide-img-wrap:nth-child(2){animation-delay:.6s;transform:scale(1.12)}
+.slide-img-wrap:nth-child(3){animation-delay:1.1s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.slide-img-wrap:nth-child(2){animation-name:float2}
+@keyframes float2{0%,100%{transform:scale(1.12) translateY(0)}50%{transform:scale(1.12) translateY(-14px)}}
+/* Arrows */
+.sl-arr{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:rgba(255,255,255,.18);border:none;width:38px;height:60px;color:#fff;font-size:20px;cursor:pointer;transition:.2s;backdrop-filter:blur(8px)}
+.sl-arr:hover{background:rgba(255,255,255,.32)}
+.sl-arr.prev{left:0;border-radius:0 5px 5px 0}
+.sl-arr.next{right:0;border-radius:5px 0 0 5px}
+/* Dots */
+.sl-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:10}
+.sl-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);border:none;cursor:pointer;transition:.3s;padding:0}
+.sl-dot.on{background:#fff;width:24px;border-radius:4px}
+
+/* ── MEGA SALE SECTION ───────────────────────────────────── */
+.mega-wrap{background:linear-gradient(135deg,#060618 0%,#0d1433 50%,#060618 100%);padding:36px 20px;position:relative;overflow:hidden}
+.mega-wrap::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(40,116,240,.18) 0%,transparent 70%)}
+.mega-stars{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle linear infinite}
+@keyframes twinkle{0%,100%{opacity:.1}50%{opacity:.8}}
+.mega-inner{max-width:1300px;margin:auto;position:relative;z-index:2}
+.mega-top{text-align:center;margin-bottom:32px}
+.live-chip{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,23,68,.12);border:1.5px solid rgba(255,23,68,.5);
+  border-radius:30px;padding:5px 16px;margin-bottom:16px;
+}
+.live-chip .dot{width:8px;height:8px;border-radius:50%;background:#FF1744;animation:blink 1s ease infinite;box-shadow:0 0 8px #FF1744}
+.live-chip span{color:#FF5252;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase}
+.mega-title{font-family:'Nunito',sans-serif;color:#fff;font-size:38px;font-weight:900;margin-bottom:8px}
+.mega-title em{color:var(--yo);font-style:normal}
+.mega-sub{color:rgba(255,255,255,.45);font-size:14px}
+
+.sale-cards{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:820px;margin:0 auto 24px}
+
+.sale-card{
+  position:relative;border-radius:16px;overflow:hidden;
+  cursor:pointer;text-decoration:none;
+  padding:28px 32px;min-height:220px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  transition:all .35s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 4px 32px rgba(0,0,0,.4);
+}
+.sale-card:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 16px 56px rgba(0,0,0,.5)}
+.sc-mob{background:linear-gradient(135deg,#FF0050 0%,#FF5500 50%,#FF8C00 100%)}
+.sc-fash{background:linear-gradient(135deg,#5500CC 0%,#0066FF 50%,#00BBDD 100%)}
+.sale-card::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Ccircle cx='30' cy='30' r='1' fill='white' fill-opacity='0.06'/%3E%3C/g%3E%3C/svg%3E") repeat;pointer-events:none}
+/* Shimmer */
+.sale-card::after{content:'';position:absolute;top:-50%;left:-70%;width:50%;height:200%;background:rgba(255,255,255,.14);transform:skewX(-20deg);transition:left .6s ease;pointer-events:none}
+.sale-card:hover::after{left:130%}
+
+.sc-badge{
+  position:absolute;top:-1px;right:20px;
+  background:var(--yo);color:#000;
+  font-size:10px;font-weight:900;letter-spacing:1px;
+  padding:4px 12px 6px;border-radius:0 0 8px 8px;
+  animation:badge-pulse 2s ease infinite;
+}
+@keyframes badge-pulse{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.08)}}
+
+.sc-top{display:flex;align-items:center;gap:12px;z-index:1}
+.sc-icon{font-size:44px;animation:iconWig 2.5s ease infinite}
+@keyframes iconWig{0%,100%{transform:rotate(0) scale(1)}40%{transform:rotate(-10deg) scale(1.1)}70%{transform:rotate(8deg) scale(1.05)}}
+.sc-head{}
+.sc-route{font-size:10px;color:rgba(255,255,255,.6);font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:4px}
+.sc-name{font-family:'Nunito',sans-serif;font-size:24px;font-weight:900;color:#fff;line-height:1}
+.sc-desc{color:rgba(255,255,255,.75);font-size:13px;z-index:1;margin-top:8px}
+
+.sc-bottom{display:flex;align-items:center;justify-content:space-between;z-index:1}
+.sc-off{font-family:'Nunito',sans-serif;font-size:36px;font-weight:900;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.3)}
+.sc-off sup{font-size:18px}
+.sc-btn{
+  background:rgba(255,255,255,.2);backdrop-filter:blur(10px);
+  border:1.5px solid rgba(255,255,255,.5);color:#fff;
+  padding:10px 20px;border-radius:6px;
+  font-size:13px;font-weight:800;letter-spacing:.5px;
+  transition:.25s;
+}
+.sale-card:hover .sc-btn{background:rgba(255,255,255,.35)}
+
+.sc-svg-deco{position:absolute;right:-10px;bottom:-10px;opacity:.12;pointer-events:none}
+
+.aws-row{text-align:center;color:rgba(255,255,255,.22);font-size:10.5px;letter-spacing:.8px}
+.aws-row strong{color:rgba(255,255,255,.5)}
+
+/* ── SECTION GENERIC ─────────────────────────────────────── */
+.section{max-width:1300px;margin:16px auto;padding:0 20px}
+.sec-card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:20px 24px}
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.sec-title{font-family:'Nunito',sans-serif;font-size:22px;font-weight:800}
+.sec-link{color:var(--fk);font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:4px;transition:.2s}.sec-link:hover{gap:8px}
+
+/* ── CATEGORIES ──────────────────────────────────────────── */
+.cat-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:10px}
+.cat-item{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 6px;border-radius:10px;cursor:pointer;transition:.25s}
+.cat-item:hover{background:#f0f4ff;transform:translateY(-3px)}
+.cat-thumb{width:72px;height:72px;border-radius:50%;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.12)}
+.cat-thumb svg{width:72px;height:72px}
+.cat-label{font-size:12px;font-weight:700;text-align:center;color:#333}
+
+/* ── DEALS ───────────────────────────────────────────────── */
+.deal-timer{display:flex;align-items:center;gap:8px}
+.timer-label{font-size:12px;color:var(--sub);font-weight:600}
+.tblock{background:var(--fk);color:#fff;padding:4px 8px;border-radius:4px;font-size:16px;font-weight:800;min-width:36px;text-align:center;font-variant-numeric:tabular-nums}
+.tcolon{font-size:18px;font-weight:800;color:var(--fk)}
+
+.deals-row{display:flex;gap:14px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x mandatory;scrollbar-width:thin;scrollbar-color:var(--fk) transparent}
+.deal-card{flex-shrink:0;width:150px;border:1.5px solid var(--bdr);border-radius:8px;overflow:hidden;cursor:pointer;scroll-snap-align:start;transition:.25s}
+.deal-card:hover{border-color:var(--fk);box-shadow:0 4px 16px rgba(40,116,240,.15);transform:translateY(-3px)}
+.deal-img{height:118px;display:flex;align-items:center;justify-content:center;background:#f8f9ff;padding:8px}
+.deal-img svg{transition:transform .4s}.deal-card:hover .deal-img svg{transform:scale(1.08)}
+.deal-info{padding:8px 10px;text-align:center}
+.deal-name{font-size:11.5px;font-weight:600;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.deal-off{color:var(--gr);font-size:12px;font-weight:800}
+.deal-price{font-size:13px;font-weight:700}
+
+/* ── PRODUCT GRID ────────────────────────────────────────── */
+.prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.pcard{
+  background:var(--card);border-radius:10px;
+  border:1.5px solid var(--bdr);overflow:hidden;
+  cursor:pointer;transition:.25s;position:relative;
+}
+.pcard:hover{border-color:var(--fk);box-shadow:0 8px 28px rgba(40,116,240,.14);transform:translateY(-4px)}
+.p-badge{position:absolute;top:10px;left:10px;z-index:2;padding:3px 9px;border-radius:4px;font-size:10px;font-weight:800;letter-spacing:.5px}
+.p-badge.hot{background:var(--rd);color:#fff}
+.p-badge.new{background:var(--fk);color:#fff}
+.p-wish{position:absolute;top:10px;right:10px;z-index:2;background:#fff;border:1.5px solid var(--bdr);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:.2s}
+.p-wish:hover{border-color:var(--rd);color:var(--rd)}
+.p-img{height:196px;display:flex;align-items:center;justify-content:center;background:#f8f9ff;overflow:hidden}
+.p-img svg{transition:transform .4s}.pcard:hover .p-img svg{transform:scale(1.07)}
+.p-info{padding:12px}
+.p-name{font-size:13.5px;font-weight:600;margin-bottom:5px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.4;color:#333}
+.p-rat{display:flex;align-items:center;gap:5px;margin-bottom:8px}
+.rat-pill{background:var(--gr);color:#fff;font-size:11px;font-weight:700;padding:2px 7px;border-radius:3px}
+.rat-cnt{font-size:11px;color:var(--sub)}
+.p-price{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+.p-cur{font-size:18px;font-weight:800}
+.p-orig{font-size:12px;color:var(--sub);text-decoration:line-through}
+.p-dis{font-size:12px;font-weight:800;color:var(--gr)}
+.p-add{width:100%;padding:9px;background:var(--or);color:#fff;border:none;border-radius:5px;font-size:13px;font-weight:800;cursor:pointer;transition:.2s;letter-spacing:.3px}
+.p-add:hover{background:#e55100}
+
+/* ── BANNERS ─────────────────────────────────────────────── */
+.banner-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:1300px;margin:16px auto;padding:0 20px}
+.ban{border-radius:12px;overflow:hidden;cursor:pointer;transition:.25s;display:flex;align-items:center;padding:28px;height:165px;text-decoration:none}
+.ban:hover{transform:scale(1.015);box-shadow:0 10px 32px rgba(0,0,0,.18)}
+.ban-mob{background:linear-gradient(135deg,#ffecb3,#ffcc02,#ff9800)}
+.ban-fash{background:linear-gradient(135deg,#e3f0ff,#90c0ff,#5590ff)}
+.ban-body h3{font-family:'Nunito',sans-serif;font-size:24px;font-weight:900;margin-bottom:4px;color:#111}
+.ban-body p{font-size:12.5px;color:rgba(0,0,0,.6);margin-bottom:12px;line-height:1.5}
+.ban-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 20px;border-radius:4px;font-size:13px;font-weight:800;border:none;cursor:pointer;transition:.2s}
+.ban-mob .ban-btn{background:#e65100;color:#fff}
+.ban-fash .ban-btn{background:#1a5fd4;color:#fff}
+
+/* ── FOOTER ──────────────────────────────────────────────── */
+.footer{background:#172337;color:rgba(255,255,255,.6);margin-top:32px}
+.foot-inner{max-width:1300px;margin:auto;padding:40px 20px 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:30px}
+.foot-col h4{color:#fff;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px}
+.foot-col a{display:block;font-size:12.5px;margin-bottom:10px;cursor:pointer;transition:.15s}.foot-col a:hover{color:#fff}
+.foot-bot{border-top:1px solid rgba(255,255,255,.1);text-align:center;padding:16px 20px;font-size:11.5px;color:rgba(255,255,255,.35)}
+.foot-bot b{color:var(--yo)}
+
+/* ── TOAST ───────────────────────────────────────────────── */
+.toast{
+  position:fixed;bottom:28px;right:28px;z-index:9999;
+  background:#111;color:#fff;border-left:4px solid var(--fk);
+  padding:14px 22px;border-radius:6px;font-size:13.5px;
+  display:flex;align-items:center;gap:10px;
+  box-shadow:0 8px 32px rgba(0,0,0,.3);
+  transform:translateY(80px);opacity:0;transition:.35s cubic-bezier(.4,0,.2,1);
+  max-width:320px;
+}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* ── RESPONSIVE ──────────────────────────────────────────── */
+@media(max-width:900px){
+  .cat-grid{grid-template-columns:repeat(4,1fr)}
+  .prod-grid{grid-template-columns:repeat(2,1fr)}
+  .sale-cards{grid-template-columns:1fr}
+  .banner-grid{grid-template-columns:1fr}
+  .foot-inner{grid-template-columns:repeat(2,1fr)}
+  .slide-imgs{display:none}
+  .slide-h1{font-size:34px}
+}
+@media(max-width:580px){
+  .nav-links{display:none}
+  .nav-search{margin:0 8px}
+  .mega-title{font-size:28px}
+  .sc-off{font-size:28px}
+}
+</style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">🔥 BIG BILLION DAYS — Up to 80% Off Everything!</span>
+    <span class="ticker-item">📱 Mega Mobile Sale LIVE — iPhones from ₹29,999</span>
+    <span class="ticker-item">👗 Fashion Fiesta — Flat 80% Off Top Brands</span>
+    <span class="ticker-item">🎧 Electronics Bonanza — Sony, JBL, Bose</span>
+    <span class="ticker-item">🚀 Free Delivery on Orders above ₹499</span>
+    <span class="ticker-item">💳 Extra 10% off with Flipkart Axis Bank Card</span>
+    <span class="ticker-item">⚡ Flash Sale at 12:00 PM — Set Your Reminders!</span>
+    <span class="ticker-item">🔥 BIG BILLION DAYS — Up to 80% Off Everything!</span>
+    <span class="ticker-item">📱 Mega Mobile Sale LIVE — iPhones from ₹29,999</span>
+    <span class="ticker-item">👗 Fashion Fiesta — Flat 80% Off Top Brands</span>
+    <span class="ticker-item">🎧 Electronics Bonanza — Sony, JBL, Bose</span>
+    <span class="ticker-item">🚀 Free Delivery on Orders above ₹499</span>
+    <span class="ticker-item">💳 Extra 10% off with Flipkart Axis Bank Card</span>
+    <span class="ticker-item">⚡ Flash Sale at 12:00 PM — Set Your Reminders!</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">
+      <span class="logo-name">Flipkart</span>
+      <span class="logo-sub">Explore <em>Plus</em> ✦</span>
+    </div>
+    <div class="nav-search">
+      <input type="text" id="sq" placeholder="Search for products, brands and more…">
+      <button onclick="doSearch()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#2874F0" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      </button>
+    </div>
+    <div class="nav-links">
+      <button class="nav-btn solid" onclick="toast('Login feature coming soon!','👤')">Login</button>
+      <button class="nav-btn" onclick="toast('Seller portal opening…','🏪')">Become a Seller</button>
+      <div class="cart-wrap" onclick="toast('Your cart is ready!','🛒')">
+        🛒 Cart
+        <span class="cart-badge" id="cartCount">0</span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO SLIDER -->
+<div class="hero">
+  <div class="slider-track" id="sliderTrack">
+
+    <!-- Slide 0: Mobiles -->
+    <div class="slide sl-0">
+      <div class="slide-text">
+        <div class="slide-eyebrow"><span class="dot"></span><span>Live Sale</span></div>
+        <div class="slide-h1">MEGA MOBILE<br>SALE 2026</div>
+        <div class="slide-sub">Up to 80% off on 500+ smartphones.<br>Samsung, iPhone, OnePlus & more.</div>
+        <a class="slide-cta" href="http://dev-alb-65756139.us-east-1.elb.amazonaws.com/mobile/">⚡ Shop Mobiles Now</a>
+      </div>
+      <div class="slide-imgs">
+        <div class="slide-img-wrap">
+          <svg width="90" height="160" viewBox="0 0 90 160" xmlns="http://www.w3.org/2000/svg">
+            <rect width="90" height="160" rx="14" fill="#1a1a2e"/>
+            <rect x="5" y="12" width="80" height="136" rx="10" fill="url(#sm1)"/>
+            <defs><linearGradient id="sm1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1565c0"/><stop offset="100%" stop-color="#00acc1"/></linearGradient></defs>
+            <rect x="28" y="5" width="34" height="5" rx="2.5" fill="#333"/>
+            <circle cx="45" cy="153" r="4.5" fill="#333"/>
+            <text x="45" y="75" text-anchor="middle" fill="white" font-size="8.5" font-weight="bold" font-family="sans-serif">Samsung</text>
+            <text x="45" y="87" text-anchor="middle" fill="rgba(255,255,255,.65)" font-size="7" font-family="sans-serif">Galaxy A55</text>
+          </svg>
+        </div>
+        <div class="slide-img-wrap">
+          <svg width="110" height="196" viewBox="0 0 110 196" xmlns="http://www.w3.org/2000/svg">
+            <rect width="110" height="196" rx="20" fill="#111"/>
+            <rect x="6" y="16" width="98" height="164" rx="13" fill="url(#sm2)"/>
+            <defs><linearGradient id="sm2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#FF0050"/><stop offset="100%" stop-color="#FF6D00"/></linearGradient></defs>
+            <rect x="36" y="8" width="38" height="6" rx="3" fill="#2a2a2a"/>
+            <circle cx="55" cy="188" r="6" fill="#2a2a2a"/>
+            <text x="55" y="98" text-anchor="middle" fill="white" font-size="11" font-weight="bold" font-family="sans-serif">Galaxy S24</text>
+            <text x="55" y="113" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="8.5" font-family="sans-serif">Ultra 256GB</text>
+            <circle cx="55" cy="72" r="16" fill="rgba(0,0,0,.35)"/>
+            <circle cx="55" cy="72" r="8" fill="rgba(0,0,0,.5)"/>
+            <circle cx="55" cy="72" r="4" fill="rgba(255,255,255,.2)"/>
+          </svg>
+        </div>
+        <div class="slide-img-wrap">
+          <svg width="90" height="160" viewBox="0 0 90 160" xmlns="http://www.w3.org/2000/svg">
+            <rect width="90" height="160" rx="14" fill="#1c1c1e"/>
+            <rect x="5" y="12" width="80" height="136" rx="10" fill="url(#sm3)"/>
+            <defs><linearGradient id="sm3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2c2c2e"/><stop offset="100%" stop-color="#1c1c1e"/></linearGradient></defs>
+            <circle cx="45" cy="8" r="3.5" fill="#333"/>
+            <circle cx="45" cy="153" r="5.5" fill="#333"/>
+            <text x="45" y="75" text-anchor="middle" fill="white" font-size="8.5" font-weight="bold" font-family="sans-serif">iPhone 15</text>
+            <text x="45" y="87" text-anchor="middle" fill="rgba(255,255,255,.55)" font-size="7" font-family="sans-serif">Pro Max</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 1: Fashion -->
+    <div class="slide sl-1">
+      <div class="slide-text">
+        <div class="slide-eyebrow"><span class="dot"></span><span>Fashion Fiesta</span></div>
+        <div class="slide-h1">MEGA FASHION<br>SALE 2026</div>
+        <div class="slide-sub">Flat 80% off on top brands.<br>Nike, Levi's, Zara, H&M & 200+ more.</div>
+        <a class="slide-cta" href="http://dev-alb-65756139.us-east-1.elb.amazonaws.com/cloths/">👗 Shop Fashion Now</a>
+      </div>
+      <div class="slide-imgs">
+        <div class="slide-img-wrap">
+          <svg width="95" height="170" viewBox="0 0 95 170" xmlns="http://www.w3.org/2000/svg">
+            <rect width="95" height="170" fill="#f8f0ff"/>
+            <path d="M47 15 L20 38 L20 155 L75 155 L75 38 Z" fill="url(#fa1)"/>
+            <defs><linearGradient id="fa1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7b00ff"/><stop offset="100%" stop-color="#e91e8c"/></linearGradient></defs>
+            <path d="M47 15 L20 38 L47 46 L75 38 Z" fill="#9b30ff"/>
+            <text x="47" y="108" text-anchor="middle" fill="white" font-size="10" font-weight="bold" font-family="sans-serif">PUMA</text>
+            <text x="47" y="122" text-anchor="middle" fill="rgba(255,255,255,.7)" font-size="8" font-family="sans-serif">Sport Tee</text>
+          </svg>
+        </div>
+        <div class="slide-img-wrap">
+          <svg width="115" height="210" viewBox="0 0 115 210" xmlns="http://www.w3.org/2000/svg">
+            <rect width="115" height="210" fill="#fff0f8"/>
+            <path d="M57 18 Q57 18 38 36 L28 195 L87 195 L97 36 Q78 18 57 18Z" fill="url(#fa2)"/>
+            <defs><linearGradient id="fa2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e91e8c"/><stop offset="100%" stop-color="#7b00ff"/></linearGradient></defs>
+            <path d="M57 18 Q78 14 97 36 L87 44 Q72 34 57 34 Q42 34 28 44 L38 36 Q47 18 57 18Z" fill="#ff4db2"/>
+            <text x="57" y="132" text-anchor="middle" fill="white" font-size="12" font-weight="bold" font-family="sans-serif">ZARA</text>
+            <text x="57" y="148" text-anchor="middle" fill="rgba(255,255,255,.75)" font-size="9" font-family="sans-serif">Premium Dress</text>
+          </svg>
+        </div>
+        <div class="slide-img-wrap">
+          <svg width="120" height="130" viewBox="0 0 120 130" xmlns="http://www.w3.org/2000/svg">
+            <rect width="120" height="130" fill="#e8f4fd"/>
+            <path d="M8 88 Q18 46 62 40 L108 44 Q118 50 118 72 L118 92 L8 92 Z" fill="url(#fa3)"/>
+            <defs><linearGradient id="fa3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#212121"/><stop offset="100%" stop-color="#616161"/></linearGradient></defs>
+            <path d="M8 92 L118 92 L118 106 Q60 116 8 106 Z" fill="#424242"/>
+            <path d="M44 40 L44 26 Q56 18 76 22 L100 40" fill="#212121" stroke="none"/>
+            <text x="62" y="74" text-anchor="middle" fill="white" font-size="11" font-weight="bold" font-family="sans-serif">NIKE</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2: Electronics -->
+    <div class="slide sl-2">
+      <div class="slide-text">
+        <div class="slide-eyebrow"><span class="dot"></span><span>Tech Week</span></div>
+        <div class="slide-h1">ELECTRONICS<br>BONANZA</div>
+        <div class="slide-sub">Lowest prices on laptops, TVs & headphones.<br>Up to 70% off on top brands.</div>
+        <button class="slide-cta" onclick="toast('Electronics section coming soon!','🎧')">🎧 Shop Electronics</button>
+      </div>
+      <div class="slide-imgs">
+        <div class="slide-img-wrap">
+          <svg width="150" height="116" viewBox="0 0 150 116" xmlns="http://www.w3.org/2000/svg">
+            <rect width="150" height="116" fill="#0a1628"/>
+            <rect x="8" y="14" width="134" height="82" rx="5" fill="#1a2540"/>
+            <rect x="12" y="18" width="126" height="72" rx="3" fill="url(#el1)"/>
+            <defs><linearGradient id="el1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1565c0"/><stop offset="100%" stop-color="#0288d1"/></linearGradient></defs>
+            <path d="M20 98 L130 98 L138 112 L12 112 Z" fill="#1a2540"/>
+            <rect x="55" y="112" width="40" height="4" rx="2" fill="#2a3a58"/>
+            <text x="75" y="60" text-anchor="middle" fill="rgba(255,255,255,.85)" font-size="9.5" font-weight="bold" font-family="sans-serif">MacBook Air M2</text>
+          </svg>
+        </div>
+        <div class="slide-img-wrap">
+          <svg width="90" height="90" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+            <rect width="90" height="90" fill="#1a1a2e"/>
+            <ellipse cx="45" cy="45" rx="34" ry="40" fill="none" stroke="#2874F0" stroke-width="8"/>
+            <path d="M11 45 Q4 30 11 20" fill="none" stroke="#1565c0" stroke-width="11" stroke-linecap="round"/>
+            <path d="M79 45 Q86 30 79 20" fill="none" stroke="#1565c0" stroke-width="11" stroke-linecap="round"/>
+            <ellipse cx="45" cy="45" rx="16" ry="16" fill="#0d47a1"/>
+            <text x="45" y="49" text-anchor="middle" fill="white" font-size="7" font-family="sans-serif">SONY</text>
+          </svg>
+        </div>
+        <div class="slide-img-wrap">
+          <svg width="130" height="100" viewBox="0 0 130 100" xmlns="http://www.w3.org/2000/svg">
+            <rect width="130" height="100" fill="#111"/>
+            <rect x="5" y="8" width="120" height="76" rx="5" fill="#222"/>
+            <rect x="9" y="12" width="112" height="64" rx="3" fill="url(#el3)"/>
+            <defs><linearGradient id="el3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0d47a1"/><stop offset="100%" stop-color="#1976d2"/></linearGradient></defs>
+            <rect x="50" y="86" width="30" height="6" rx="3" fill="#333"/>
+            <text x="65" y="50" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">SONY OLED 55"</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3: Home -->
+    <div class="slide sl-3">
+      <div class="slide-text">
+        <div class="slide-eyebrow"><span class="dot"></span><span>Home Fest</span></div>
+        <div class="slide-h1">HOME &amp;<br>KITCHEN SALE</div>
+        <div class="slide-sub">Up to 60% off on premium appliances.<br>Refrigerators, washing machines & ACs.</div>
+        <button class="slide-cta" onclick="toast('Home section coming soon!','🏠')">🏠 Shop Home</button>
+      </div>
+      <div class="slide-imgs">
+        <div class="slide-img-wrap">
+          <svg width="90" height="140" viewBox="0 0 90 140" xmlns="http://www.w3.org/2000/svg">
+            <rect width="90" height="140" fill="#263238"/>
+            <rect x="8" y="8" width="74" height="124" rx="6" fill="#37474f"/>
+            <rect x="14" y="16" width="62" height="60" rx="4" fill="#455a64"/>
+            <circle cx="25" cy="106" r="10" fill="#546e7a"/>
+            <circle cx="65" cy="106" r="10" fill="#546e7a"/>
+            <text x="45" y="54" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">SAMSUNG</text>
+            <text x="45" y="66" text-anchor="middle" fill="rgba(255,255,255,.6)" font-size="7" font-family="sans-serif">Washer 7Kg</text>
+          </svg>
+        </div>
+        <div class="slide-img-wrap">
+          <svg width="100" height="160" viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
+            <rect width="100" height="160" fill="#1b5e20"/>
+            <rect x="8" y="10" width="84" height="140" rx="8" fill="#2e7d32"/>
+            <rect x="14" y="20" width="72" height="56" rx="4" fill="#388e3c"/>
+            <rect x="14" y="82" width="72" height="56" rx="4" fill="#43a047"/>
+            <circle cx="50" cy="150" r="6" fill="#1b5e20"/>
+            <text x="50" y="52" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">LG</text>
+            <text x="50" y="64" text-anchor="middle" fill="rgba(255,255,255,.6)" font-size="7" font-family="sans-serif">Double Door</text>
+          </svg>
+        </div>
+        <div class="slide-img-wrap">
+          <svg width="110" height="80" viewBox="0 0 110 80" xmlns="http://www.w3.org/2000/svg">
+            <rect width="110" height="80" fill="#0d47a1"/>
+            <rect x="6" y="8" width="98" height="56" rx="8" fill="#1565c0"/>
+            <rect x="12" y="16" width="86" height="30" rx="3" fill="#1976d2"/>
+            <rect x="12" y="52" width="86" height="6" rx="3" fill="#1565c0"/>
+            <circle cx="92" cy="30" r="8" fill="#0d47a1"/>
+            <text x="48" y="36" text-anchor="middle" fill="white" font-size="8" font-weight="bold" font-family="sans-serif">Daikin AC 1.5T</text>
+            <rect x="6" y="68" width="98" height="8" rx="4" fill="#1565c0"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /slider-track -->
+
+  <button class="sl-arr prev" onclick="slideBy(-1)">&#10094;</button>
+  <button class="sl-arr next" onclick="slideBy(1)">&#10095;</button>
+  <div class="sl-dots" id="slDots"></div>
+</div><!-- /hero -->
+
+<!-- ── MEGA SALE SECTION ─────────────────────────────────── -->
+<div class="mega-wrap">
+  <!-- Stars background -->
+  <div class="mega-stars" id="starsEl"></div>
+
+  <div class="mega-inner">
+    <div class="mega-top">
+      <div class="live-chip"><span class="dot"></span><span>Sale is Live Now</span></div>
+      <h2 class="mega-title">🔥 Flipkart <em>Mega Sale</em> — Pick Your Category</h2>
+      <p class="mega-sub">Limited time · Limited stock · Up to 80% off · AWS path-based routing</p>
+    </div>
+
+    <div class="sale-cards">
+
+      <!-- Mobile Sale Card -->
+      <a class="sale-card sc-mob" href="http://dev-alb-65756139.us-east-1.elb.amazonaws.com/mobile/">
+        <span class="sc-badge">🔴 LIVE NOW</span>
+        <div class="sc-top">
+          <span class="sc-icon">📱</span>
+          <div class="sc-head">
+            <div class="sc-route">→ /mobiles/index.html</div>
+            <div class="sc-name">Mobile Mega<br>Sale</div>
+          </div>
+        </div>
+        <div class="sc-desc">500+ smartphones · Samsung · iPhone · OnePlus · Xiaomi · realme</div>
+        <div class="sc-bottom">
+          <div class="sc-off"><sup>UP TO </sup>80<sup>% OFF</sup></div>
+          <div class="sc-btn">SHOP NOW →</div>
+        </div>
+        <!-- SVG decoration -->
+        <svg class="sc-svg-deco" width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="5" width="100" height="130" rx="18" fill="white"/>
+          <rect x="18" y="20" width="84" height="100" rx="10" fill="rgba(0,0,0,.5)"/>
+          <circle cx="60" cy="134" r="6" fill="rgba(255,255,255,.3)"/>
+        </svg>
+      </a>
+
+      <!-- Fashion Sale Card -->
+      <a class="sale-card sc-fash" href="http://dev-alb-65756139.us-east-1.elb.amazonaws.com/cloths/">
+        <span class="sc-badge">🟢 LIVE NOW</span>
+        <div class="sc-top">
+          <span class="sc-icon">👗</span>
+          <div class="sc-head">
+            <div class="sc-route">→ /fashion/index.html</div>
+            <div class="sc-name">Fashion Mega<br>Sale</div>
+          </div>
+        </div>
+        <div class="sc-desc">2000+ styles · Nike · Levi's · Zara · H&M · Puma · FabIndia</div>
+        <div class="sc-bottom">
+          <div class="sc-off"><sup>UP TO </sup>80<sup>% OFF</sup></div>
+          <div class="sc-btn">SHOP NOW →</div>
+        </div>
+        <!-- SVG decoration -->
+        <svg class="sc-svg-deco" width="140" height="140" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+          <path d="M70 10 L30 38 L30 130 L110 130 L110 38 Z" fill="white"/>
+          <path d="M70 10 L30 38 L70 50 L110 38 Z" fill="rgba(255,255,255,.7)"/>
+        </svg>
+      </a>
+
+    </div><!-- /sale-cards -->
+
+    <p class="aws-row">🌐 <strong>AWS ALB Listener Rules:</strong> /mobiles → Mobile Microservice &nbsp;|&nbsp; /fashion → Fashion Microservice</p>
+  </div>
+</div>
+
+<!-- ── CATEGORIES ─────────────────────────────────────────── -->
+<div class="section">
+  <div class="sec-card">
+    <div class="sec-hdr">
+      <h2 class="sec-title">Shop by Category</h2>
+      <span class="sec-link">See All →</span>
+    </div>
+    <div class="cat-grid" id="catGrid"></div>
+  </div>
+</div>
+
+<!-- ── DEALS OF THE DAY ───────────────────────────────────── -->
+<div class="section">
+  <div class="sec-card">
+    <div class="sec-hdr">
+      <h2 class="sec-title" style="display:flex;align-items:center;gap:12px">
+        ⚡ Deals of the Day
+        <div class="deal-timer">
+          <span class="timer-label">Ends in</span>
+          <span class="tblock" id="th">04</span><span class="tcolon">:</span>
+          <span class="tblock" id="tm">38</span><span class="tcolon">:</span>
+          <span class="tblock" id="ts">55</span>
+        </div>
+      </h2>
+      <span class="sec-link">See All →</span>
+    </div>
+    <div class="deals-row" id="dealsRow"></div>
+  </div>
+</div>
+
+<!-- ── FEATURED PRODUCTS ──────────────────────────────────── -->
+<div class="section">
+  <div class="sec-card">
+    <div class="sec-hdr">
+      <h2 class="sec-title">🔥 Featured Products</h2>
+      <span class="sec-link">See All →</span>
+    </div>
+    <div class="prod-grid" id="prodGrid"></div>
+  </div>
+</div>
+
+<!-- ── BANNERS ────────────────────────────────────────────── -->
+<div class="banner-grid">
+  <a class="ban ban-mob" href="http://dev-alb-65756139.us-east-1.elb.amazonaws.com/mobile/">
+    <div class="ban-body">
+      <h3>📱 Mobile Bonanza</h3>
+      <p>Up to 80% off on best-selling smartphones.<br>Limited time — grab before stock runs out!</p>
+      <button class="ban-btn">Shop Mobiles →</button>
+    </div>
+  </a>
+  <a class="ban ban-fash" href="http://dev-alb-65756139.us-east-1.elb.amazonaws.com/cloths/">
+    <div class="ban-body">
+      <h3>👗 Fashion Fiesta</h3>
+      <p>Top brands at lowest prices ever.<br>Refresh your wardrobe today!</p>
+      <button class="ban-btn">Shop Fashion →</button>
+    </div>
+  </a>
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────────────── -->
+<footer class="footer">
+  <div class="foot-inner">
+    <div class="foot-col">
+      <h4>About</h4>
+      <a>Contact Us</a><a>About Us</a><a>Careers</a><a>Flipkart Stories</a><a>Press</a><a>Corporate Info</a>
+    </div>
+    <div class="foot-col">
+      <h4>Help</h4>
+      <a>Payments</a><a>Shipping</a><a>Cancellation & Returns</a><a>FAQ</a><a>Report Infringement</a>
+    </div>
+    <div class="foot-col">
+      <h4>Policy</h4>
+      <a>Return Policy</a><a>Terms of Use</a><a>Security</a><a>Privacy</a><a>Sitemap</a>
+    </div>
+    <div class="foot-col">
+      <h4>Social</h4>
+      <a>Facebook</a><a>Twitter</a><a>YouTube</a><a>Instagram</a><a>Pinterest</a>
+    </div>
+  </div>
+  <div class="foot-bot">
+    <b>© 2026 Flipkart.com</b> — A Walmart Company · Made with ❤️ in India
+  </div>
+</footer>
+
+<div class="toast" id="toastEl"></div>
+
+<script>
+/* ── TOAST ───────────────────────────────────── */
+function toast(msg, icon='✅') {
+  const t = document.getElementById('toastEl');
+  t.innerHTML = `<span style="font-size:18px">${icon}</span> ${msg}`;
+  t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+/* ── CART ────────────────────────────────────── */
+let cartQty = 0;
+function addCart(name) {
+  cartQty++;
+  document.getElementById('cartCount').textContent = cartQty;
+  toast(`"${name.slice(0,22)}…" added to cart`, '🛒');
+}
+function toggleWish(btn) {
+  const on = btn.textContent === '♥';
+  btn.textContent = on ? '♡' : '♥';
+  btn.style.color = on ? '' : '#FF1744';
+  btn.style.borderColor = on ? '' : '#FF1744';
+  toast(on ? 'Removed from wishlist' : 'Added to wishlist!', on ? '💔' : '❤️');
+}
+
+/* ── SEARCH ──────────────────────────────────── */
+function doSearch() {
+  const q = document.getElementById('sq').value.trim();
+  if (q) toast(`Searching for "${q}"…`, '🔍');
+}
+document.getElementById('sq').addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
+
+/* ── SLIDER ──────────────────────────────────── */
+const SLIDE_COUNT = 4;
+let curSlide = 0, sliderTimer;
+
+function buildDots() {
+  const c = document.getElementById('slDots');
+  for (let i = 0; i < SLIDE_COUNT; i++) {
+    const b = document.createElement('button');
+    b.className = 'sl-dot' + (i === 0 ? ' on' : '');
+    b.onclick = () => goSlide(i);
+    c.appendChild(b);
+  }
+}
+function goSlide(n) {
+  curSlide = (n + SLIDE_COUNT) % SLIDE_COUNT;
+  document.getElementById('sliderTrack').style.transform = `translateX(-${curSlide * 100}%)`;
+  document.querySelectorAll('.sl-dot').forEach((d, i) => d.classList.toggle('on', i === curSlide));
+}
+function slideBy(d) { goSlide(curSlide + d); }
+function startSlider() { sliderTimer = setInterval(() => slideBy(1), 4000); }
+buildDots();
+startSlider();
+const heroEl = document.querySelector('.hero');
+heroEl.addEventListener('mouseenter', () => clearInterval(sliderTimer));
+heroEl.addEventListener('mouseleave', startSlider);
+
+/* ── TIMER ───────────────────────────────────── */
+function startTimer(hi, mi, si, h, m, s) {
+  function tick() {
+    const hE = document.getElementById(hi), mE = document.getElementById(mi), sE = document.getElementById(si);
+    if (!hE) return;
+    hE.textContent = String(h).padStart(2, '0');
+    mE.textContent = String(m).padStart(2, '0');
+    sE.textContent = String(s).padStart(2, '0');
+    if (--s < 0) { s = 59; if (--m < 0) { m = 59; if (--h < 0) h = 23; } }
+  }
+  tick(); setInterval(tick, 1000);
+}
+startTimer('th','tm','ts', 4, 38, 55);
+
+/* ── STAR BG ─────────────────────────────────── */
+(function() {
+  const c = document.getElementById('starsEl');
+  for (let i = 0; i < 60; i++) {
+    const s = document.createElement('div');
+    const sz = Math.random() * 2.5 + 1;
+    s.className = 'star';
+    s.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${Math.random()*4+2}s;animation-delay:${Math.random()*5}s`;
+    c.appendChild(s);
+  }
+})();
+
+/* ── SVG LIBRARY ─────────────────────────────── */
+function svgPhone(c1, c2, brand, model) {
+  const id = 'p' + Math.random().toString(36).slice(2,7);
+  return `<svg viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs>
+    <rect width="160" height="200" fill="#0d0d1a"/>
+    <rect x="10" y="6" width="140" height="188" rx="22" fill="#1e1e2e"/>
+    <rect x="16" y="20" width="128" height="154" rx="12" fill="url(#${id})"/>
+    <rect x="52" y="10" width="56" height="7" rx="3.5" fill="#111"/>
+    <circle cx="80" cy="192" r="7.5" fill="#111"/>
+    <text x="80" y="94" text-anchor="middle" fill="white" font-size="13.5" font-weight="bold" font-family="sans-serif">${brand}</text>
+    <text x="80" y="112" text-anchor="middle" fill="rgba(255,255,255,.65)" font-size="10.5" font-family="sans-serif">${model}</text>
+  </svg>`;
+}
+function svgLaptop(c1, c2, brand, model) {
+  const id = 'l' + Math.random().toString(36).slice(2,7);
+  return `<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+    <defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs>
+    <rect width="220" height="160" fill="#0a0a14"/>
+    <rect x="14" y="12" width="192" height="118" rx="7" fill="#222"/>
+    <rect x="20" y="18" width="180" height="104" rx="5" fill="url(#${id})"/>
+    <rect x="2" y="132" width="216" height="20" rx="5" fill="#222"/>
+    <rect x="72" y="134" width="76" height="5" rx="2.5" fill="#333"/>
+    <text x="110" y="72" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="sans-serif">${brand}</text>
+    <text x="110" y="90" text-anchor="middle" fill="rgba(255,255,255,.55)" font-size="10" font-family="sans-serif">${model}</text>
+  </svg>`;
+}
+function svgTV() {
+  return `<svg viewBox="0 0 240 170" xmlns="http://www.w3.org/2000/svg">
+    <rect width="240" height="170" fill="#0a0a14"/>
+    <rect x="6" y="10" width="228" height="134" rx="8" fill="#1a1a2e"/>
+    <rect x="12" y="16" width="216" height="120" rx="5" fill="url(#tvG)"/>
+    <defs><linearGradient id="tvG" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0d47a1"/><stop offset="100%" stop-color="#1565c0"/></linearGradient></defs>
+    <rect x="98" y="146" width="44" height="10" rx="4" fill="#222"/>
+    <rect x="72" y="156" width="96" height="8" rx="4" fill="#1a1a1a"/>
+    <text x="120" y="82" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="sans-serif">SONY BRAVIA 55"</text>
+    <text x="120" y="100" text-anchor="middle" fill="rgba(255,255,255,.55)" font-size="10" font-family="sans-serif">4K OLED Google TV</text>
+  </svg>`;
+}
+function svgHeadphones(c1, c2, brand) {
+  return `<svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+    <rect width="160" height="160" fill="#111"/>
+    <ellipse cx="80" cy="76" rx="54" ry="64" fill="none" stroke="${c1}" stroke-width="10"/>
+    <path d="M26 76 Q16 54 26 40" fill="none" stroke="${c2}" stroke-width="16" stroke-linecap="round"/>
+    <path d="M134 76 Q144 54 134 40" fill="none" stroke="${c2}" stroke-width="16" stroke-linecap="round"/>
+    <ellipse cx="80" cy="76" rx="22" ry="22" fill="${c2}"/>
+    <ellipse cx="80" cy="76" rx="10" ry="10" fill="${c1}"/>
+    <text x="80" y="152" text-anchor="middle" fill="white" font-size="9" font-family="sans-serif">${brand}</text>
+  </svg>`;
+}
+function svgWatch(c1, c2) {
+  return `<svg viewBox="0 0 140 190" xmlns="http://www.w3.org/2000/svg">
+    <rect width="140" height="190" fill="#111"/>
+    <rect x="50" y="2" width="40" height="30" rx="6" fill="${c1}"/>
+    <rect x="50" y="158" width="40" height="30" rx="6" fill="${c1}"/>
+    <rect x="18" y="48" width="104" height="94" rx="20" fill="${c2}"/>
+    <rect x="26" y="56" width="88" height="78" rx="14" fill="url(#wG)"/>
+    <defs><linearGradient id="wG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${c1}"/><stop offset="100%" stop-color="${c2}"/></linearGradient></defs>
+    <text x="70" y="90" text-anchor="middle" fill="white" font-size="12.5" font-family="sans-serif" font-weight="bold">10:42</text>
+    <text x="70" y="108" text-anchor="middle" fill="rgba(255,255,255,.5)" font-size="7.5" font-family="sans-serif">Smart Watch</text>
+  </svg>`;
+}
+
+/* ── CATEGORIES DATA ─────────────────────────── */
+const CATS = [
+  { l: 'Mobiles', fill: '#e3f2fd', icon: `<rect x="17" y="5" width="34" height="58" rx="9" fill="#2874F0"/><rect x="21" y="14" width="26" height="38" rx="5" fill="#1565c0"/><circle cx="34" cy="57" r="3.5" fill="#1565c0"/>` },
+  { l: 'Fashion', fill: '#fce4ec', icon: `<path d="M34 9 L20 22 L20 60 L48 60 L48 22 Z" fill="#e91e63"/><path d="M34 9 L20 22 L34 26 L48 22 Z" fill="#f06292"/>` },
+  { l: 'Electronics', fill: '#f3e5f5', icon: `<rect x="8" y="19" width="52" height="32" rx="4" fill="#9c27b0"/><rect x="11" y="22" width="46" height="24" rx="2" fill="#7b1fa2"/><rect x="26" y="53" width="16" height="6" rx="3" fill="#9c27b0"/>` },
+  { l: 'Home', fill: '#e8f5e9', icon: `<path d="M34 8 L8 34 L16 34 L16 60 L52 60 L52 34 L60 34 Z" fill="#4caf50"/><rect x="27" y="44" width="14" height="16" rx="2" fill="#2e7d32"/>` },
+  { l: 'Appliances', fill: '#fff3e0', icon: `<rect x="14" y="8" width="40" height="52" rx="5" fill="#ff9800"/><rect x="18" y="16" width="32" height="22" rx="3" fill="#e65100"/><circle cx="34" cy="48" r="9" fill="#fff3e0"/>` },
+  { l: 'Beauty', fill: '#fce4ec', icon: `<rect x="24" y="13" width="20" height="42" rx="10" fill="#e91e63"/><rect x="24" y="8" width="20" height="11" rx="4" fill="#880e4f"/>` },
+  { l: 'Toys', fill: '#fff9c4', icon: `<circle cx="34" cy="36" r="23" fill="#f9a825"/><circle cx="25" cy="28" r="5.5" fill="#fff"/><circle cx="43" cy="28" r="5.5" fill="#fff"/><path d="M22 45 Q34 54 46 45" fill="none" stroke="#e65100" stroke-width="3" stroke-linecap="round"/>` },
+  { l: 'Sports', fill: '#e8eaf6', icon: `<circle cx="34" cy="36" r="22" fill="#3f51b5"/><path d="M20 21 Q34 13 48 21" fill="none" stroke="white" stroke-width="2.5"/><path d="M12 36 Q20 29 34 36 Q48 43 56 36" fill="none" stroke="white" stroke-width="2.5"/><path d="M20 51 Q34 59 48 51" fill="none" stroke="white" stroke-width="2.5"/>` },
+];
+
+/* ── DEALS DATA ──────────────────────────────── */
+const DEALS = [
+  { n:'Sony WH-1000XM5', off:'45% off', p:'₹24,999', s: svgHeadphones('#1565c0','#2196f3','Sony XM5') },
+  { n:'boAt Rockerz 550', off:'62% off', p:'₹1,299',  s: svgHeadphones('#880e4f','#e91e63','boAt') },
+  { n:'Mi SmartWatch S1', off:'52% off', p:'₹2,499',  s: svgWatch('#212121','#424242') },
+  { n:'iPad Pro 11" M4',  off:'22% off', p:'₹74,999', s: svgPhone('#2874F0','#1565c0','iPad Pro','11" M4') },
+  { n:'JBL Charge 5',     off:'38% off', p:'₹12,499', s: svgHeadphones('#e65100','#ff9800','JBL') },
+  { n:'Samsung Watch 6',  off:'44% off', p:'₹18,999', s: svgWatch('#1565c0','#0d47a1') },
+  { n:'Apple Watch S9',   off:'16% off', p:'₹37,999', s: svgWatch('#555','#333') },
+];
+
+/* ── FEATURED PRODUCTS ───────────────────────── */
+const PRODUCTS = [
+  { n:'Samsung Galaxy S24 Ultra 256GB', p:89999, o:119999, d:25, r:4.7, rv:18432, b:'HOT', s: svgPhone('#FF0050','#FF6D00','S24 Ultra','256GB') },
+  { n:'Apple iPhone 15 Pro Max 128GB',  p:119999,o:149900, d:20, r:4.8, rv:9841,  b:'',    s: svgPhone('#2c2c2e','#1a1a1a','iPhone 15','Pro Max') },
+  { n:'OnePlus 12 5G 16GB/512GB',       p:54999, o:74999,  d:27, r:4.5, rv:34112, b:'NEW', s: svgPhone('#e91e63','#9c27b0','OnePlus 12','5G 512GB') },
+  { n:'MacBook Air M2 8GB/256GB SSD',   p:99999, o:124900, d:20, r:4.8, rv:7234,  b:'',    s: svgLaptop('#1565c0','#0288d1','MacBook Air','M2 Chip') },
+  { n:'Dell XPS 15 i9 32GB/1TB',        p:179999,o:219999, d:18, r:4.6, rv:3102,  b:'',    s: svgLaptop('#222','#444','Dell XPS 15','Intel i9') },
+  { n:'Sony Bravia 55" 4K OLED TV',     p:79999, o:119999, d:33, r:4.6, rv:11204, b:'HOT', s: svgTV() },
+  { n:'Sony WH-1000XM5 Headphones',     p:22999, o:39990,  d:43, r:4.8, rv:28904, b:'HOT', s: svgHeadphones('#1a237e','#2874F0','Sony XM5') },
+  { n:'Xiaomi 14 Ultra 16GB/512GB',     p:79999, o:119999, d:33, r:4.6, rv:6780,  b:'NEW', s: svgPhone('#212121','#616161','Xiaomi 14','Ultra 512GB') },
+];
+
+/* ── RENDER ──────────────────────────────────── */
+function renderCats() {
+  document.getElementById('catGrid').innerHTML = CATS.map(c => `
+    <div class="cat-item" onclick="toast('Browsing ${c.l}…','🛍️')">
+      <div class="cat-thumb">
+        <svg viewBox="0 0 68 68" xmlns="http://www.w3.org/2000/svg">
+          <rect width="68" height="68" fill="${c.fill}"/>
+          ${c.icon}
+        </svg>
+      </div>
+      <span class="cat-label">${c.l}</span>
+    </div>`).join('');
+}
+function renderDeals() {
+  document.getElementById('dealsRow').innerHTML = DEALS.map(d => `
+    <div class="deal-card" onclick="toast('Viewing ${d.n}','⚡')">
+      <div class="deal-img">${d.s}</div>
+      <div class="deal-info">
+        <div class="deal-name">${d.n}</div>
+        <div class="deal-off">${d.off}</div>
+        <div class="deal-price">${d.p}</div>
+      </div>
+    </div>`).join('');
+}
+function renderProds() {
+  document.getElementById('prodGrid').innerHTML = PRODUCTS.map(p => {
+    const bc = p.b === 'HOT' ? 'hot' : p.b === 'NEW' ? 'new' : '';
+    const sf = p.n.replace(/'/g,"\\'");
+    return `<div class="pcard">
+      ${p.b ? `<span class="p-badge ${bc}">${p.b}</span>` : ''}
+      <button class="p-wish" onclick="toggleWish(this)">♡</button>
+      <div class="p-img">${p.s}</div>
+      <div class="p-info">
+        <div class="p-name">${p.n}</div>
+        <div class="p-rat"><span class="rat-pill">★ ${p.r}</span><span class="rat-cnt">(${p.rv.toLocaleString()})</span></div>
+        <div class="p-price">
+          <span class="p-cur">₹${p.p.toLocaleString()}</span>
+          <span class="p-orig">₹${p.o.toLocaleString()}</span>
+          <span class="p-dis">${p.d}% off</span>
+        </div>
+        <button class="p-add" onclick="addCart('${sf}')">ADD TO CART</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+renderCats(); renderDeals(); renderProds();
+</script>
+</body>
+</html>

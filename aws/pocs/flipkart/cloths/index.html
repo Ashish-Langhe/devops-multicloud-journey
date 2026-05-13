@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flipkart Fashion Mega Sale</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background:#140021;
+  color:white;
+  overflow-x:hidden;
+}
+
+.hero{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:70px 8%;
+  background:linear-gradient(135deg,#6500ff,#ff00a6);
+  position:relative;
+  overflow:hidden;
+}
+
+.hero::before{
+  content:'';
+  position:absolute;
+  width:600px;
+  height:600px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.08);
+  top:-250px;
+  right:-150px;
+}
+
+.content{
+  max-width:620px;
+  z-index:2;
+  animation:slideIn 1s ease;
+}
+
+@keyframes slideIn{
+  from{
+    opacity:0;
+    transform:translateX(-40px);
+  }
+  to{
+    opacity:1;
+    transform:translateX(0);
+  }
+}
+
+.badge{
+  display:inline-block;
+  background:rgba(255,255,255,0.15);
+  padding:10px 20px;
+  border-radius:50px;
+  margin-bottom:25px;
+  font-weight:600;
+}
+
+h1{
+  font-size:4rem;
+  line-height:1.1;
+  margin-bottom:20px;
+}
+
+.highlight{
+  color:#ffe600;
+}
+
+p{
+  line-height:1.8;
+  margin-bottom:30px;
+}
+
+.sale-grid{
+  display:flex;
+  gap:20px;
+  flex-wrap:wrap;
+  margin-bottom:35px;
+}
+
+.sale-card{
+  background:rgba(255,255,255,0.12);
+  padding:20px;
+  border-radius:20px;
+  min-width:160px;
+  transition:0.4s;
+}
+
+.sale-card:hover{
+  transform:translateY(-10px);
+}
+
+.sale-card h2{
+  color:#ffe600;
+  font-size:2rem;
+}
+
+.btn{
+  display:inline-block;
+  background:#ffe600;
+  color:#111;
+  text-decoration:none;
+  padding:16px 34px;
+  border-radius:50px;
+  font-weight:700;
+  transition:0.4s;
+}
+
+.btn:hover{
+  transform:scale(1.05);
+}
+
+.fashion-svg{
+  width:450px;
+  animation:float 4s infinite ease-in-out;
+  z-index:2;
+}
+
+@keyframes float{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-20px);}
+}
+
+.categories{
+  padding:100px 8%;
+  background:#1c032d;
+}
+
+.title{
+  text-align:center;
+  margin-bottom:60px;
+}
+
+.title h2{
+  font-size:3rem;
+  margin-bottom:15px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:30px;
+}
+
+.card{
+  background:linear-gradient(145deg,#290642,#3f0965);
+  padding:30px;
+  border-radius:24px;
+  transition:0.4s;
+}
+
+.card:hover{
+  transform:translateY(-10px);
+}
+
+.card svg{
+  width:80px;
+  margin-bottom:20px;
+}
+
+.offer{
+  padding:100px 8%;
+  background:linear-gradient(135deg,#230039,#12001d);
+  text-align:center;
+}
+
+.offer-box{
+  margin-top:40px;
+  background:rgba(255,255,255,0.08);
+  padding:50px;
+  border-radius:30px;
+}
+
+.offer-box h2{
+  font-size:4rem;
+  color:#ffe600;
+}
+
+footer{
+  padding:30px;
+  text-align:center;
+  background:#0b0011;
+}
+
+@media(max-width:900px){
+
+.hero{
+  flex-direction:column;
+  text-align:center;
+}
+
+h1{
+  font-size:3rem;
+}
+
+.sale-grid{
+  justify-content:center;
+}
+
+.fashion-svg{
+  width:320px;
+  margin-top:50px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+
+<div class="content">
+
+<div class="badge">
+✨ Fashion Fiesta 2026
+</div>
+
+<h1>
+Mega <span class="highlight">Fashion</span> Sale
+</h1>
+
+<p>
+Shop premium brands like Zara, Nike, H&M, Puma & Levi's with
+flat 70–80% OFF during the Flipkart Mega Sale.
+</p>
+
+<div class="sale-grid">
+
+<div class="sale-card">
+<h2>80% OFF</h2>
+<p>Top Brands</p>
+</div>
+
+<div class="sale-card">
+<h2>Buy 2</h2>
+<p>Get 1 Free</p>
+</div>
+
+<div class="sale-card">
+<h2>Free</h2>
+<p>Express Delivery</p>
+</div>
+
+</div>
+
+<a href="#" class="btn">
+🛍️ Shop Fashion Now
+</a>
+
+</div>
+
+<svg class="fashion-svg" viewBox="0 0 400 500">
+
+<rect width="400" height="500" rx="40"
+fill="url(#paint0_linear)"/>
+
+<path d="M200 90L280 160V400H120V160L200 90Z"
+fill="white"
+opacity="0.18"/>
+
+<circle cx="200" cy="140" r="40"
+fill="#ffe600"/>
+
+<text x="50%" y="68%"
+text-anchor="middle"
+fill="white"
+font-size="42"
+font-weight="700">
+FASHION
+</text>
+
+<text x="50%" y="82%"
+text-anchor="middle"
+fill="#ffe600"
+font-size="64"
+font-weight="800">
+80%
+</text>
+
+<defs>
+
+<linearGradient id="paint0_linear"
+x1="0"
+y1="0"
+x2="400"
+y2="500">
+
+<stop stop-color="#ff00a6"/>
+<stop offset="1" stop-color="#6500ff"/>
+
+</linearGradient>
+
+</defs>
+
+</svg>
+
+</section>
+
+<section class="categories">
+
+<div class="title">
+<h2>Trending Categories</h2>
+<p>Discover premium collections at unbelievable prices.</p>
+</div>
+
+<div class="grid">
+
+<div class="card">
+
+<svg viewBox="0 0 64 64">
+<rect width="64" height="64" rx="18" fill="#ff5f6d"/>
+<path d="M20 50V24L32 14L44 24V50"
+stroke="white"
+stroke-width="5"
+stroke-linejoin="round"/>
+</svg>
+
+<h3>Women's Fashion</h3>
+
+<p>
+Dresses, handbags and luxury collections up to 75% OFF.
+</p>
+
+</div>
+
+<div class="card">
+
+<svg viewBox="0 0 64 64">
+<circle cx="32" cy="32" r="32" fill="#00c6ff"/>
+<path d="M20 20H44V44H20V20Z"
+stroke="white"
+stroke-width="5"/>
+</svg>
+
+<h3>Men's Collection</h3>
+
+<p>
+Premium shirts, jackets and denim starting from ₹499.
+</p>
+
+</div>
+
+<div class="card">
+
+<svg viewBox="0 0 64 64">
+<rect width="64" height="64" rx="20" fill="#9b5cff"/>
+<path d="M18 40L32 18L46 40"
+stroke="white"
+stroke-width="5"
+stroke-linecap="round"
+stroke-linejoin="round"/>
+</svg>
+
+<h3>Footwear Deals</h3>
+
+<p>
+Running shoes and sneakers with 70–80% OFF.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<section class="offer">
+
+<h2>🎉 Biggest Fashion Sale of 2026</h2>
+
+<p>
+Limited stock available — shop now before products sell out.
+</p>
+
+<div class="offer-box">
+
+<h2>UP TO 80% OFF</h2>
+
+<p>
++ Extra 10% bank cashback on prepaid orders.
+</p>
+
+</div>
+
+</section>
+
+<footer>
+© 2026 Flipkart Fashion Mega Sale
+</footer>
+
+</body>
+</html>
